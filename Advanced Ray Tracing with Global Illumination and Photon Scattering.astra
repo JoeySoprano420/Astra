@@ -1,0 +1,35 @@
+# AstraPrime Advanced Ray Tracing with Global Illumination and Photon Scattering
+
+DEFINE FUNCTION TRACE_RAY_WITH_GLOBAL_ILLUMINATION(ray, scene, depth):
+    # Trace a ray with global illumination, calculating light bounces across surfaces
+    IF depth <= MAX_BOUNCES:
+        intersection = FIND_RAY_INTERSECTION(ray, scene)
+        IF intersection IS VALID:
+            # Direct light
+            direct_light = CALCULATE_DIRECT_LIGHT(scene.LIGHT_SOURCES, intersection)
+            # Indirect light from global illumination
+            indirect_light = CALCULATE_INDIRECT_LIGHT(ray, scene, intersection, depth)
+            total_light = direct_light + indirect_light
+            UPDATE_PIXEL_COLOR(ray.PIXEL, total_light)
+            # Recursive trace for additional light bounces
+            reflected_ray = CALCULATE_REFLECTION_RAY(ray, intersection, intersection.MATERIAL)
+            TRACE_RAY_WITH_GLOBAL_ILLUMINATION(reflected_ray, scene, depth + 1)
+    PRINT "Ray traced with global illumination at depth: " + depth
+END_FUNCTION
+
+DEFINE FUNCTION CALCULATE_INDIRECT_LIGHT(ray, scene, intersection, depth):
+    # Calculate indirect light bouncing off multiple surfaces (global illumination)
+    photon_map = scene.PHOTON_MAP
+    indirect_light = 0
+    FOR EACH photon IN photon_map:
+        indirect_light += photon.ENERGY * SCATTER_PHOTON(photon, intersection)
+    PRINT "Indirect light calculated from photon map."
+    RETURN indirect_light
+END_FUNCTION
+
+DEFINE FUNCTION SCATTER_PHOTON(photon, intersection):
+    # Scatter photon based on surface material properties
+    scatter_direction = RANDOM_DIRECTION(intersection.NORMAL)
+    scattered_photon = CREATE_PHOTON(intersection.POSITION, scatter_direction)
+    RETURN scattered_photon.ENERGY
+END_FUNCTION
