@@ -1,0 +1,28 @@
+# AstraPrime Advanced Particle Systems: Fluid, Smoke, Fire
+
+DEFINE FUNCTION INIT_PARTICLE_SYSTEM_3D(particle_type, max_particles, fluid_sim):
+    # Initialize a 3D particle system for fluids, smoke, or fire
+    particle_system.TYPE = particle_type
+    particle_system.MAX_PARTICLES = max_particles
+    particle_system.FLUID_SIMULATION = fluid_sim
+    INITIALIZE_PARTICLES_3D(particle_system)
+    PRINT particle_type + " particle system initialized with fluid simulation: " + fluid_sim
+END_FUNCTION
+
+DEFINE FUNCTION SIMULATE_SMOKE_PARTICLES(particle_system, wind_force, temperature):
+    # Simulate smoke particles with wind and temperature effects
+    FOR EACH particle IN particle_system:
+        particle.POSITION += wind_force * particle.DENSITY
+        particle.TEMPERATURE = temperature * particle.HEIGHT
+        UPDATE_PARTICLE(particle)
+    PRINT "Smoke particles simulated with wind force: " + wind_force
+END_FUNCTION
+
+DEFINE FUNCTION SIMULATE_FLUID_PARTICLES(particle_system, pressure, gravity):
+    # Simulate fluid particles interacting with gravity and pressure forces
+    FOR EACH particle IN particle_system:
+        particle.VELOCITY += pressure * particle.DENSITY / particle_system.FLUID_SIMULATION
+        particle.VELOCITY += gravity
+        UPDATE_PARTICLE_FLUID(particle)
+    PRINT "Fluid particles simulated with pressure and gravity."
+END_FUNCTION
