@@ -1,0 +1,7 @@
+OPTIMIZE JIT_COMPILATION ENABLED
+
+DEFINE FUNCTION profile_execution(func AS FUNCTION):
+    START_TIMER()
+    func()  # Execute the function
+    END_TIMER()
+END_FUNCTION
