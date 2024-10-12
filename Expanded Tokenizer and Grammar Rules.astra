@@ -1,0 +1,37 @@
+# Expanded Tokenizer: Handling AstraPrime's Extensive Commands, Flows, and Pointers
+DEFINE FUNCTION expanded_lex_source_code(source_code):
+    TOKEN_LIST = []
+    
+    FOR EACH char IN source_code:
+        IF char IS WHITESPACE:
+            CONTINUE
+        ELSE:
+            token = ADVANCED_DETERMINE_TOKEN_TYPE(char)
+            APPEND TOKEN_LIST, token
+    
+    RETURN TOKEN_LIST
+END_FUNCTION
+
+DEFINE FUNCTION ADVANCED_DETERMINE_TOKEN_TYPE(char):
+    IF char MATCH "[A-Za-z0-9]":
+        RETURN CREATE_TOKEN("IDENTIFIER", char)
+    ELSE IF char MATCH "[+-/*=<>]":
+        RETURN CREATE_TOKEN("OPERATOR", char)
+    ELSE IF char MATCH "[{}()]":
+        RETURN CREATE_TOKEN("SYMBOL", char)
+    ELSE IF char MATCH "[FLOW | POINTER | COMMAND]":
+        RETURN CREATE_TOKEN("KEYWORD", char)
+    ELSE:
+        RETURN CREATE_TOKEN("UNKNOWN", char)
+END_FUNCTION
+
+DEFINE FUNCTION grammar_rules(token_list):
+    # Define AstraPrime's expansive grammar rules
+    RULES = {
+        "IDENTIFIER -> KEYWORD",
+        "KEYWORD -> FLOW",
+        "FLOW -> OPERATOR",
+        "POINTER -> OPERATOR"
+    }
+    RETURN APPLY_RULES(token_list, RULES)
+END_FUNCTION
