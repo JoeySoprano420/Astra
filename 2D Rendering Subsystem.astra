@@ -1,0 +1,32 @@
+# AstraPrime 2D Rendering System
+DEFINE FUNCTION INITIALIZE_2D_RENDERING():
+    # Set up 2D rendering context
+    SET_RENDER_MODE("2D")
+    LOAD_2D_SHADERS()
+    PRINT "2D Rendering context initialized."
+END_FUNCTION
+
+DEFINE FUNCTION RENDER_2D_OBJECT(object):
+    # Render a 2D object, such as a sprite or texture
+    IF object.TYPE == "SPRITE":
+        DRAW_SPRITE(object)
+    ELSE IF object.TYPE == "GEOMETRY":
+        DRAW_2D_GEOMETRY(object)
+    PRINT "Rendered 2D object: " + object.NAME
+END_FUNCTION
+
+DEFINE FUNCTION DRAW_SPRITE(sprite):
+    # Draw sprite on screen at specified position
+    BIND_TEXTURE(sprite.TEXTURE)
+    DRAW_QUAD(sprite.POSITION_X, sprite.POSITION_Y, sprite.WIDTH, sprite.HEIGHT)
+    PRINT "Sprite drawn at position: " + sprite.POSITION_X + ", " + sprite.POSITION_Y
+END_FUNCTION
+
+DEFINE FUNCTION DRAW_2D_GEOMETRY(geometry):
+    # Draw basic 2D shapes (rectangles, circles, lines, etc.)
+    IF geometry.SHAPE == "RECTANGLE":
+        DRAW_RECTANGLE(geometry.POS_X, geometry.POS_Y, geometry.WIDTH, geometry.HEIGHT)
+    ELSE IF geometry.SHAPE == "CIRCLE":
+        DRAW_CIRCLE(geometry.POS_X, geometry.POS_Y, geometry.RADIUS)
+    PRINT "2D geometry drawn: " + geometry.SHAPE
+END_FUNCTION
