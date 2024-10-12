@@ -1,0 +1,1 @@
+INIT_FADING_EFFECT(myObject, 5.0, 1.0)
