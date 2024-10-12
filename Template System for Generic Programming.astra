@@ -1,0 +1,7 @@
+DEFINE FUNCTION sort<T>(array AS ARRAY[T]) RETURNS ARRAY[T]:
+    # Generic sorting logic
+    RETURN sorted_array
+END_FUNCTION
+
+numbers = ARRAY[INTEGER] {3, 1, 2}
+sorted_numbers = sort(numbers)
