@@ -1,0 +1,30 @@
+# AstraPrime Shaders and Real-Time Lighting
+DEFINE FUNCTION LOAD_3D_SHADERS():
+    # Load and compile vertex and fragment shaders for advanced rendering effects
+    VERTEX_SHADER = LOAD_SHADER("vertex_shader.glsl")
+    FRAGMENT_SHADER = LOAD_SHADER("fragment_shader.glsl")
+    COMPILE_SHADER(VERTEX_SHADER)
+    COMPILE_SHADER(FRAGMENT_SHADER)
+    LINK_SHADER_PROGRAM(VERTEX_SHADER, FRAGMENT_SHADER)
+    PRINT "3D Shaders loaded and compiled."
+END_FUNCTION
+
+DEFINE FUNCTION USE_SHADER(shader):
+    # Apply a compiled shader program to the current rendering pipeline
+    ACTIVATE_SHADER(shader.PROGRAM_ID)
+    PRINT "Shader applied: " + shader.NAME
+END_FUNCTION
+
+DEFINE FUNCTION SET_POINT_LIGHT(position, intensity):
+    # Set a point light source in the 3D scene
+    SET_LIGHT_POSITION(position.X, position.Y, position.Z)
+    SET_LIGHT_INTENSITY(intensity)
+    PRINT "Point light set at position: " + position.X + ", " + position.Y + ", " + position.Z
+END_FUNCTION
+
+DEFINE FUNCTION SET_DIRECTIONAL_LIGHT(direction, intensity):
+    # Set a directional light source in the 3D scene
+    SET_LIGHT_DIRECTION(direction.X, direction.Y, direction.Z)
+    SET_LIGHT_INTENSITY(intensity)
+    PRINT "Directional light set with intensity: " + intensity
+END_FUNCTION
