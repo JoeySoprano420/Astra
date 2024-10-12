@@ -1,0 +1,9 @@
+INCLUDE_LIBRARY "graphics"
+
+DEFINE FUNCTION visualize_fibonacci_sequence(n AS INTEGER):
+    data = []
+    FOR i = 0 TO n:
+        APPEND(data, fibonacci(i))
+    CREATE_GRAPH(data)
+    DISPLAY_GRAPH()
+END_FUNCTION
