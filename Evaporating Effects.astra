@@ -1,0 +1,40 @@
+# AstraPrime Evaporating Effects Simulation
+
+DEFINE FUNCTION INIT_EVAPORATING_EFFECT(object, evaporation_rate, duration):
+    # Initialize evaporating effect on an object
+    object.EVAPORATION_RATE = evaporation_rate
+    object.DURATION = duration
+    REGISTER_EVAPORATING(object)
+    PRINT "Evaporating effect initialized on object with rate: " + evaporation_rate
+END_FUNCTION
+
+DEFINE FUNCTION SIMULATE_EVAPORATION(object, time_step):
+    # Simulate the evaporation of an object over time
+    if object.VOLUME > 0:
+        evaporation_amount = object.EVAPORATION_RATE * time_step
+        object.VOLUME -= evaporation_amount
+        IF object.VOLUME < 0:
+            object.VOLUME = 0
+        UPDATE_OBJECT_VOLUME(object)
+    PRINT "Evaporation effect applied on object. Current volume: " + object.VOLUME
+END_FUNCTION
+
+DEFINE FUNCTION UPDATE_OBJECT_VOLUME(object):
+    # Update the visual representation of the object's volume
+    if object.VOLUME > 0:
+        object.RENDER_SIZE = CALCULATE_RENDER_SIZE(object.VOLUME)
+    else:
+        HIDE_OBJECT(object)
+    PRINT "Updated object volume based on evaporation effect."
+END_FUNCTION
+
+DEFINE FUNCTION CALCULATE_RENDER_SIZE(volume):
+    # Calculate the render size based on current volume
+    return INITIAL_SIZE * (volume / INITIAL_VOLUME)
+END_FUNCTION
+
+DEFINE FUNCTION HIDE_OBJECT(object):
+    # Hide the object from the scene once it evaporates completely
+    REMOVE_OBJECT_FROM_SCENE(object)
+    PRINT "Object has fully evaporated and is removed from scene."
+END_FUNCTION
