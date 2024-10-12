@@ -1,0 +1,31 @@
+# AstraPrime Physics Integration for 2D and 3D
+
+DEFINE FUNCTION INIT_PHYSICS_BODY_2D(object, mass, friction, restitution):
+    # Initialize 2D physics body for an object with mass, friction, and restitution
+    object.MASS = mass
+    object.FRICTION = friction
+    object.RESTITUTION = restitution
+    REGISTER_2D_PHYSICS_BODY(object)
+    PRINT "2D physics body initialized for object with mass: " + mass
+END_FUNCTION
+
+DEFINE FUNCTION INIT_PHYSICS_BODY_3D(object, mass, friction, restitution):
+    # Initialize 3D physics body for an object with mass, friction, and restitution
+    object.MASS = mass
+    object.FRICTION = friction
+    object.RESTITUTION = restitution
+    REGISTER_3D_PHYSICS_BODY(object)
+    PRINT "3D physics body initialized for object with mass: " + mass
+END_FUNCTION
+
+DEFINE FUNCTION APPLY_FORCE_2D(object, force_vector):
+    # Apply a force to a 2D object to simulate real-world physics
+    ADD_FORCE_2D(object, force_vector.X, force_vector.Y)
+    PRINT "Force applied to 2D object: " + force_vector
+END_FUNCTION
+
+DEFINE FUNCTION APPLY_FORCE_3D(object, force_vector):
+    # Apply a force to a 3D object to simulate real-world physics
+    ADD_FORCE_3D(object, force_vector.X, force_vector.Y, force_vector.Z)
+    PRINT "Force applied to 3D object: " + force_vector
+END_FUNCTION
