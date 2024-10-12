@@ -1,0 +1,7 @@
+# AstraPrime GPU Acceleration
+DEFINE FUNCTION ENABLE_GPU_ACCELERATION():
+    # Initialize GPU rendering pipeline
+    ENABLE_HARDWARE_ACCELERATION()
+    SET_GPU_FLAGS("vertex_shading", "fragment_shading")
+    PRINT "GPU acceleration enabled."
+END_FUNCTION
