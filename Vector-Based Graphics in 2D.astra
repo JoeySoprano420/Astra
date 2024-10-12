@@ -1,0 +1,31 @@
+# AstraPrime 2D Vector Graphics
+DEFINE FUNCTION DRAW_VECTOR_SHAPE(vector_shape):
+    IF vector_shape.TYPE == "LINE":
+        DRAW_LINE(vector_shape.START_POINT, vector_shape.END_POINT)
+    ELSE IF vector_shape.TYPE == "POLYGON":
+        DRAW_POLYGON(vector_shape.VERTICES)
+    ELSE IF vector_shape.TYPE == "BEZIER":
+        DRAW_BEZIER_CURVE(vector_shape.CONTROL_POINTS)
+    PRINT "2D Vector shape drawn: " + vector_shape.TYPE
+END_FUNCTION
+
+DEFINE FUNCTION DRAW_LINE(start_point, end_point):
+    # Draw a line between two points
+    DRAW_SEGMENT(start_point.X, start_point.Y, end_point.X, end_point.Y)
+    PRINT "Line drawn from (" + start_point.X + ", " + start_point.Y + ") to (" + end_point.X + ", " + end_point.Y + ")"
+END_FUNCTION
+
+DEFINE FUNCTION DRAW_POLYGON(vertices):
+    # Draw a polygon with the given vertices
+    FOR EACH vertex IN vertices:
+        ADD_VERTEX_TO_POLYGON(vertex.X, vertex.Y)
+    RENDER_POLYGON()
+    PRINT "Polygon drawn with " + LENGTH(vertices) + " vertices."
+END_FUNCTION
+
+DEFINE FUNCTION DRAW_BEZIER_CURVE(control_points):
+    # Draw a smooth Bezier curve
+    COMPUTE_BEZIER_PATH(control_points)
+    DRAW_PATH(control_points)
+    PRINT "Bezier curve drawn."
+END_FUNCTION
