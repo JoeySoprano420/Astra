@@ -1,0 +1,3 @@
+# Full-throttle compilation and optimizations
+OPTIMIZE FULL_THROTTLE_COMPILATION ENABLED
+REDUCE_LOAD_TIME ENABLED
