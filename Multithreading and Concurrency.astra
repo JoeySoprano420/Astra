@@ -1,0 +1,16 @@
+# Basic multithreaded Fibonacci example
+DEFINE FUNCTION fibonacci_multithreaded(n AS INTEGER):
+    IF n < 2 THEN RETURN n
+    thread1 = CREATE_THREAD fibonacci(n - 1)
+    thread2 = CREATE_THREAD fibonacci(n - 2)
+    RETURN WAIT_THREAD(thread1) + WAIT_THREAD(thread2)
+END_FUNCTION
+
+# Semaphore for resource management
+DEFINE SEMAPHORE resource_semaphore WITH COUNT 1
+
+DEFINE FUNCTION access_shared_resource():
+    WAIT(resource_semaphore)
+    # Resource access logic here
+    SIGNAL(resource_semaphore)
+END_FUNCTION
