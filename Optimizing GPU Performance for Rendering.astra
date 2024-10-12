@@ -1,0 +1,16 @@
+# AstraPrime GPU Acceleration
+DEFINE FUNCTION ENABLE_GPU_ACCELERATION():
+    # Initialize GPU for rendering and offload tasks for parallel execution
+    IF GPU_IS_AVAILABLE():
+        ACTIVATE_GPU_RENDERING()
+        SET_PARALLEL_PROCESSING(ON)
+        PRINT "GPU Acceleration Enabled."
+    ELSE:
+        PRINT "Warning: GPU not available. Falling back to CPU rendering."
+END_FUNCTION
+
+DEFINE FUNCTION ACTIVATE_GPU_RENDERING():
+    # Bind rendering tasks to GPU for execution
+    SET_GPU_RENDER_TARGET("FRAMEBUFFER")
+    PRINT "GPU Rendering Activated."
+END_FUNCTION
