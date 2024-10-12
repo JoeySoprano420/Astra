@@ -1,0 +1,26 @@
+# AstraPrime Tokenizer: Expanded for Extended Commands, Flows, and Pointers
+DEFINE FUNCTION advanced_tokenizer(source_code):
+    TOKEN_LIST = []
+    
+    # Tokenize new commands, flows, and pointers
+    FOR EACH char IN source_code:
+        IF char MATCHES "[A-Za-z0-9]":
+            token = IDENTIFY_COMMAND_FLOW_POINTER(char)
+            APPEND TOKEN_LIST, token
+        ELSE IF char IS SYMBOL:
+            token = IDENTIFY_SYMBOL(char)
+            APPEND TOKEN_LIST, token
+    
+    PRINT "Advanced tokenization complete."
+    RETURN TOKEN_LIST
+END_FUNCTION
+
+DEFINE FUNCTION IDENTIFY_COMMAND_FLOW_POINTER(char):
+    # Recognize new language constructs like "CRAFT", "CREATE", "VALUE", etc.
+    IF char == "C":
+        RETURN CREATE_TOKEN("COMMAND", "CRAFT")
+    ELSE IF char == "V":
+        RETURN CREATE_TOKEN("COMMAND", "VALUE")
+    ELSE:
+        RETURN CREATE_TOKEN("IDENTIFIER", char)
+END_FUNCTION
