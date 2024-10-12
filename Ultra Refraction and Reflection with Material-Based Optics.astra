@@ -1,0 +1,46 @@
+# AstraPrime Ultra Refraction and Reflection with Advanced Light Behaviors
+
+DEFINE FUNCTION INIT_MATERIAL_PROPERTIES(material, refractive_index, reflectivity, roughness):
+    # Initialize material properties for refraction and reflection
+    material.REFRACTIVE_INDEX = refractive_index
+    material.REFLECTIVITY = reflectivity
+    material.ROUGHNESS = roughness
+    REGISTER_MATERIAL(material)
+    PRINT "Material initialized with refractive index: " + refractive_index + ", reflectivity: " + reflectivity
+END_FUNCTION
+
+DEFINE FUNCTION TRACE_RAY_WITH_REFRACTION(ray, material, surface, depth):
+    # Trace a ray with refraction through a material with given refractive index
+    IF depth <= MAX_DEPTH:
+        intersection = FIND_RAY_INTERSECTION(ray, surface)
+        IF intersection IS VALID:
+            # Calculate refraction using Snell's Law
+            refracted_ray = CALCULATE_REFRACTION_RAY(ray, material.REFRACTIVE_INDEX, intersection)
+            reflection_ray = CALCULATE_REFLECTION_RAY(ray, intersection, material.REFLECTIVITY)
+            TRANSMIT_LIGHT(refracted_ray, reflection_ray, material)
+            TRACE_RAY_WITH_REFRACTION(refracted_ray, material, surface, depth + 1)
+    PRINT "Ray traced with refraction and reflection at depth: " + depth
+END_FUNCTION
+
+DEFINE FUNCTION CALCULATE_REFRACTION_RAY(ray, refractive_index, intersection):
+    # Calculate refraction using physics-based formulas (Snell's Law)
+    n1 = ray.MEDIUM_REFRACTIVE_INDEX
+    n2 = refractive_index
+    angle_of_incidence = GET_ANGLE(ray.DIRECTION, intersection.NORMAL)
+    refracted_direction = REFRACT_VECTOR(ray.DIRECTION, angle_of_incidence, n1, n2)
+    RETURN CREATE_RAY(intersection.POSITION, refracted_direction)
+END_FUNCTION
+
+DEFINE FUNCTION CALCULATE_REFLECTION_RAY(ray, intersection, reflectivity):
+    # Calculate reflection based on material's reflectivity and surface normal
+    reflection_direction = REFLECT_VECTOR(ray.DIRECTION, intersection.NORMAL)
+    RETURN CREATE_RAY(intersection.POSITION, reflection_direction * reflectivity)
+END_FUNCTION
+
+DEFINE FUNCTION TRANSMIT_LIGHT(refracted_ray, reflection_ray, material):
+    # Calculate how much light is transmitted through refraction and reflection
+    transmitted_light = material.REFLECTIVITY * REFLECT(reflection_ray) + 
+                       (1 - material.REFLECTIVITY) * REFRACT(refracted_ray)
+    PRINT "Light transmitted through material with ultra refraction and reflection."
+    RETURN transmitted_light
+END_FUNCTION
