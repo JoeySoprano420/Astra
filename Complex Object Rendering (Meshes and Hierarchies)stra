@@ -1,0 +1,18 @@
+# AstraPrime Complex Object Rendering
+DEFINE FUNCTION DRAW_COMPLEX_MESH(mesh_hierarchy):
+    # Render a hierarchical object with multiple sub-meshes
+    FOR EACH sub_mesh IN mesh_hierarchy:
+        DRAW_MESH(sub_mesh)
+        IF sub_mesh.HAS_CHILDREN:
+            FOR EACH child_mesh IN sub_mesh.CHILDREN:
+                DRAW_MESH(child_mesh)
+    PRINT "Complex Mesh rendered: " + mesh_hierarchy.NAME
+END_FUNCTION
+
+DEFINE FUNCTION DRAW_TERRAIN(terrain):
+    # Draw terrain using a heightmap or procedural generation
+    GENERATE_TERRAIN_FROM_HEIGHTMAP(terrain.HEIGHTMAP)
+    APPLY_TEXTURE(terrain.TEXTURE)
+    DRAW_TRIANGLES(terrain.VERTICES, terrain.INDICES)
+    PRINT "Terrain rendered with texture: " + terrain.TEXTURE.NAME
+END_FUNCTION
