@@ -1,0 +1,19 @@
+# AstraPrime System Control and Interaction
+
+DEFINE FUNCTION READ_FILE(filepath):
+    # Read from a file in the system
+    DATA = SYSTEM_READ_FILE(filepath)
+    PRINT "File read: " + filepath
+    RETURN DATA
+END_FUNCTION
+
+DEFINE FUNCTION WRITE_FILE(filepath, data):
+    # Write data to a file
+    SYSTEM_WRITE_FILE(filepath, data)
+    PRINT "Data written to file: " + filepath
+END_FUNCTION
+
+DEFINE FUNCTION ALLOCATE_MEMORY(size):
+    # Allocate memory for high-performance tasks
+    MEMORY_BLOCK = SYSTEM_ALLOCATE(size)
+    PRINT "
