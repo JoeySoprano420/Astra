@@ -1,0 +1,9 @@
+DEFINE GLOBAL memo = {}
+
+DEFINE FUNCTION fibonacci(n AS INTEGER):
+    IF n IN memo THEN RETURN memo[n]
+    ELSE IF n == 0 THEN RETURN 0
+    ELSE IF n == 1 THEN RETURN 1
+    memo[n] = fibonacci(n - 1) + fibonacci(n - 2)
+    RETURN memo[n]
+END_FUNCTION
