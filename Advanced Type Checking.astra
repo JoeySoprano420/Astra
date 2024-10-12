@@ -1,0 +1,15 @@
+# AstraPrime Advanced Type Checking
+DEFINE FUNCTION CHECK_TYPE(variable, expected_type):
+    # Perform static type checking
+    IF variable.TYPE != expected_type:
+        THROW_TYPE_ERROR("Expected " + expected_type + ", got " + variable.TYPE)
+    PRINT "Type check passed for variable: " + variable.NAME
+END_FUNCTION
+
+DEFINE FUNCTION CHECK_FUNCTION_SIGNATURE(function, expected_signature):
+    # Ensure that the function signature matches the expected parameter types
+    FOR EACH param IN function.PARAMETERS:
+        IF param.TYPE != expected_signature[param.INDEX]:
+            THROW_TYPE_ERROR("Function " + function.NAME + " parameter " + param.NAME + " does not match expected type")
+    PRINT "Function signature check passed for " + function.NAME
+END_FUNCTION
