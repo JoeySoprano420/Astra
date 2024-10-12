@@ -1,0 +1,14 @@
+# Error handling with try-catch
+DEFINE EXCEPTION OutOfBoundsError: "Index out of bounds."
+
+DEFINE FUNCTION safe_access(array AS ARRAY[INTEGER], index AS INTEGER):
+    TRY:
+        IF index < 0 OR index >= LENGTH(array) THEN
+            RAISE OutOfBoundsError
+        END_IF
+        RETURN array[index]
+    CATCH OutOfBoundsError:
+        log_error("Accessing index: " + index)
+        RETURN -1  # Error code
+    END_CATCH
+END_FUNCTION
