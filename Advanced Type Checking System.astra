@@ -1,0 +1,22 @@
+# AstraPrime Advanced Type Checking System
+
+DEFINE FUNCTION TYPE_CHECK_VARIABLE(variable, expected_type):
+    # Perform static type checking at compile-time
+    IF TYPEOF(variable) != expected_type:
+        RAISE_TYPE_ERROR(variable, expected_type)
+    PRINT "Type check passed for variable: " + variable.NAME
+END_FUNCTION
+
+DEFINE FUNCTION RAISE_TYPE_ERROR(variable, expected_type):
+    # Handle type errors and suggest fixes
+    PRINT "Type error: Variable " + variable.NAME + " expected type " + expected_type + " but got " + TYPEOF(variable)
+    SUGGEST_FIX(variable, expected_type)
+END_FUNCTION
+
+DEFINE FUNCTION SUGGEST_FIX(variable, expected_type):
+    # Suggest automatic fixes for type errors
+    IF TRY_CAST(variable, expected_type):
+        PRINT "Attempted to cast variable to " + expected_type
+    ELSE:
+        PRINT "Cannot automatically fix type error. Manual intervention required."
+END_FUNCTION
