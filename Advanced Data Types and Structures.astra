@@ -1,0 +1,21 @@
+# Basic and composite types
+DEFINE TYPE Vector:
+    DEFINE MEMBER x AS FLOAT
+    DEFINE MEMBER y AS FLOAT
+END_TYPE
+
+DEFINE STRUCTURE Matrix:
+    DEFINE MEMBER rows AS INTEGER
+    DEFINE MEMBER cols AS INTEGER
+    DEFINE MEMBER data AS ARRAY[ARRAY[FLOAT]]
+END_STRUCTURE
+
+# Class-based data handling
+DEFINE CLASS Point:
+    DEFINE MEMBER x AS FLOAT
+    DEFINE MEMBER y AS FLOAT
+
+    DEFINE FUNCTION distance(to: Point) AS FLOAT:
+        RETURN SQRT((to.x - self.x) ^ 2 + (to.y - self.y) ^ 2)
+    END_FUNCTION
+END_CLASS
