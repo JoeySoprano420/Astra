@@ -1,0 +1,24 @@
+# AstraPrime Procedural Fractal Geometry
+
+DEFINE FUNCTION GENERATE_FRACTAL_TERRAIN(seed, octaves, persistence, lacunarity):
+    # Generate terrain using fractal noise algorithms
+    FOR x FROM 0 TO TERRAIN_WIDTH:
+        FOR y FROM 0 TO TERRAIN_HEIGHT:
+            height = COMPUTE_FRACTAL_HEIGHT(x, y, seed, octaves, persistence, lacunarity)
+            SET_TERRAIN_HEIGHT(x, y, height)
+    PRINT "Fractal terrain generated."
+END_FUNCTION
+
+DEFINE FUNCTION COMPUTE_FRACTAL_HEIGHT(x, y, seed, octaves, persistence, lacunarity):
+    # Compute fractal height using noise algorithms (e.g., Perlin noise)
+    noise_value = 0
+    frequency = 1
+    amplitude = 1
+    max_value = 0
+    FOR octave FROM 0 TO octaves:
+        noise_value += amplitude * PERLIN_NOISE(x * frequency + seed, y * frequency + seed)
+        max_value += amplitude
+        amplitude *= persistence
+        frequency *= lacunarity
+    RETURN noise_value / max_value
+END_FUNCTION
