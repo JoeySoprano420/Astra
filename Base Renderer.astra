@@ -1,0 +1,18 @@
+# AstraPrime Base Graphical Renderer
+DEFINE FUNCTION initialize_renderer(window_width, window_height, mode):
+    SETUP_WINDOW(window_width, window_height)
+    
+    # Check rendering mode: 2D or 3D
+    IF mode == "2D":
+        INITIALIZE_2D_RENDERING()
+    ELSE IF mode == "3D":
+        INITIALIZE_3D_RENDERING()
+    
+    PRINT "Renderer initialized in " + mode + " mode."
+END_FUNCTION
+
+DEFINE FUNCTION SETUP_WINDOW(width, height):
+    # Set up graphical window for rendering
+    CREATE_WINDOW(width, height, "AstraPrime Renderer")
+    PRINT "Window created with size: " + width + "x" + height
+END_FUNCTION
