@@ -1,0 +1,17 @@
+# Testing and Feedback Collection for AstraPrime
+
+DEFINE FUNCTION COLLECT_FEEDBACK():
+    # Collect feedback from users after testing
+    PRINT "Please provide feedback on visual effects performance and quality:"
+    user_feedback = GET_USER_FEEDBACK()
+    STORE_FEEDBACK(user_feedback)
+    PRINT "Feedback collected and stored."
+END_FUNCTION
+
+DEFINE FUNCTION PERFORMANCE_METRICS():
+    # Measure and log performance metrics during testing sessions
+    frame_rate = GET_CURRENT_FRAME_RATE()
+    render_time = GET_LAST_RENDER_TIME()
+    LOG_PERFORMANCE(frame_rate, render_time)
+    PRINT "Performance metrics logged."
+END_FUNCTION
