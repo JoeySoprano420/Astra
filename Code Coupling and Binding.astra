@@ -1,0 +1,5 @@
+# Code coupling and binding
+DEFINE FUNCTION bind_component(component1, component2):
+    # Logic for securely binding components together
+    RETURN CONNECTION_SUCCESS
+END_FUNCTION
