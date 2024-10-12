@@ -1,0 +1,25 @@
+# User Controls for Visual Effects in AstraPrime
+
+DEFINE FUNCTION SET_GLISTENING_INTENSITY(surface, intensity):
+    # Set the glistening intensity based on user input
+    surface.GLISTENING_INTENSITY = intensity
+    PRINT "Glistening intensity set to: " + intensity
+END_FUNCTION
+
+DEFINE FUNCTION SET_FADING_DURATION(object, duration):
+    # Set the fading duration based on user input
+    object.FADE_DURATION = duration
+    PRINT "Fading duration set to: " + duration
+END_FUNCTION
+
+DEFINE FUNCTION USER_CONTROL_LOOP():
+    # Main loop for user interaction
+    WHILE TRUE:
+        user_input = GET_USER_INPUT()
+        IF user_input.TYPE == "Glistening Intensity":
+            SET_GLISTENING_INTENSITY(selected_surface, user_input.VALUE)
+        ELSE IF user_input.TYPE == "Fading Duration":
+            SET_FADING_DURATION(selected_object, user_input.VALUE)
+        # Handle other controls...
+    END_WHILE
+END_FUNCTION
