@@ -1,0 +1,42 @@
+# AstraPrime Procedural and Traditional Geometry
+DEFINE FUNCTION GENERATE_PROCEDURAL_GEOMETRY(parameters):
+    # Generate procedural geometry based on parameters such as noise, frequency, and seed
+    FOR EACH vertex IN parameters:
+        COMPUTE_VERTEX_POSITION(vertex)
+    APPLY_TEXTURE(parameters.TEXTURE)
+    PRINT "Procedural geometry generated."
+END_FUNCTION
+
+DEFINE FUNCTION CREATE_TRADITIONAL_GEOMETRY(shape_type, dimensions):
+    # Create basic geometric shapes (e.g., cubes, spheres, cylinders)
+    IF shape_type == "CUBE":
+        GENERATE_CUBE(dimensions.WIDTH, dimensions.HEIGHT, dimensions.DEPTH)
+    ELSE IF shape_type == "SPHERE":
+        GENERATE_SPHERE(dimensions.RADIUS)
+    ELSE IF shape_type == "CYLINDER":
+        GENERATE_CYLINDER(dimensions.RADIUS, dimensions.HEIGHT)
+    PRINT shape_type + " created with dimensions: " + dimensions
+END_FUNCTION
+
+DEFINE FUNCTION GENERATE_CUBE(width, height, depth):
+    # Generate vertices for a cube
+    CUBE_VERTICES = [
+        # Front face
+        (-width/2, -height/2, depth/2), (width/2, -height/2, depth/2),
+        (width/2, height/2, depth/2), (-width/2, height/2, depth/2),
+        # Repeat for other faces...
+    ]
+    BIND_MESH_DATA(CUBE_VERTICES)
+    PRINT "Cube generated."
+END_FUNCTION
+
+DEFINE FUNCTION GENERATE_SPHERE(radius):
+    # Generate vertices for a sphere using spherical coordinates
+    FOR theta FROM 0 TO 360:
+        FOR phi FROM 0 TO 180:
+            x = radius * SIN(theta) * COS(phi)
+            y = radius * SIN(theta) * SIN(phi)
+            z = radius * COS(theta)
+            ADD_VERTEX(x, y, z)
+    PRINT "Sphere generated with radius: " + radius
+END_FUNCTION
