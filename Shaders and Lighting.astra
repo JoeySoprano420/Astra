@@ -1,0 +1,17 @@
+# AstraPrime Shader System
+DEFINE FUNCTION LOAD_3D_SHADERS():
+    # Load vertex and fragment shaders for 3D rendering
+    VERTEX_SHADER = LOAD_SHADER("vertex_shader.glsl")
+    FRAGMENT_SHADER = LOAD_SHADER("fragment_shader.glsl")
+    BIND_SHADER_PROGRAM(VERTEX_SHADER, FRAGMENT_SHADER)
+    PRINT "3D Shaders loaded and bound."
+END_FUNCTION
+
+DEFINE FUNCTION APPLY_LIGHTING(light_source):
+    # Apply lighting calculations (diffuse, specular, ambient)
+    IF light_source.TYPE == "DIRECTIONAL":
+        APPLY_DIRECTIONAL_LIGHT(light_source.DIRECTION, light_source.COLOR)
+    ELSE IF light_source.TYPE == "POINT":
+        APPLY_POINT_LIGHT(light_source.POSITION, light_source.COLOR, light_source.RANGE)
+    PRINT "Applied lighting from source: " + light_source.NAME
+END_FUNCTION
