@@ -1,0 +1,28 @@
+# AstraPrime Advanced Sprite Manipulation
+
+DEFINE FUNCTION RENDER_ANIMATED_SPRITE(sprite, frame_index, x, y, rotation, scale):
+    # Render a sprite frame at specific position, with rotation and scaling
+    SELECT_FRAME(sprite, frame_index)
+    TRANSFORM_SPRITE(x, y, rotation, scale)
+    DRAW_SPRITE(sprite, x, y)
+    PRINT "Animated sprite rendered at (" + x + ", " + y + ") with rotation: " + rotation + " and scale: " + scale
+END_FUNCTION
+
+DEFINE FUNCTION TRANSFORM_SPRITE(x, y, rotation, scale):
+    # Apply transformation to sprite including position, rotation, and scaling
+    TRANSLATE_SPRITE(x, y)
+    ROTATE_SPRITE(rotation)
+    SCALE_SPRITE(scale)
+    PRINT "Sprite transformed."
+END_FUNCTION
+
+DEFINE FUNCTION APPLY_PIXEL_EFFECT(sprite, effect_type):
+    # Apply pixel-level effects like blur, brightness, or filters
+    IF effect_type == "BLUR":
+        BLUR_SPRITE(sprite)
+    ELSE IF effect_type == "BRIGHTNESS":
+        ADJUST_BRIGHTNESS(sprite, 1.2)  # Increase brightness by 20%
+    ELSE IF effect_type == "INVERT":
+        INVERT_SPRITE_COLORS(sprite)
+    PRINT "Pixel effect " + effect_type + " applied to sprite."
+END_FUNCTION
