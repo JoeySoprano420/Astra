@@ -1,0 +1,7 @@
+INCLUDE_LIBRARY "file_handling"
+INCLUDE_LIBRARY "networking"
+
+DEFINE FUNCTION read_file(filename AS STRING):
+    FILE content = READ_FILE(filename)
+    RETURN content
+END_FUNCTION
