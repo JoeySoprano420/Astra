@@ -1,0 +1,21 @@
+# AstraPrime Sprite and Texture System
+DEFINE FUNCTION LOAD_SPRITE_SHEET(sprite_sheet, frame_width, frame_height):
+    # Load a sprite sheet and divide it into individual frames
+    FOR EACH frame IN sprite_sheet:
+        EXTRACT_FRAME(sprite_sheet, frame_width, frame_height)
+    PRINT "Sprite sheet loaded with frame dimensions: " + frame_width + "x" + frame_height
+END_FUNCTION
+
+DEFINE FUNCTION RENDER_ANIMATED_SPRITE(sprite, frame_index):
+    # Render a specific frame from an animated sprite
+    DRAW_SPRITE_FRAME(sprite, frame_index)
+    PRINT "Rendered frame " + frame_index + " of sprite " + sprite.NAME
+END_FUNCTION
+
+DEFINE FUNCTION DRAW_SPRITE_FRAME(sprite, frame_index):
+    # Draw a specific frame from a sprite
+    BIND_TEXTURE(sprite.TEXTURE)
+    SELECT_TEXTURE_REGION(sprite.FRAMES[frame_index])
+    DRAW_QUAD(sprite.POSITION_X, sprite.POSITION_Y, sprite.WIDTH, sprite.HEIGHT)
+    PRINT "Sprite frame drawn at: " + sprite.POSITION_X + ", " + sprite.POSITION_Y
+END_FUNCTION
