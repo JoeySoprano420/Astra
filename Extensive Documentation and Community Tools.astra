@@ -1,0 +1,7 @@
+DEFINE FUNCTION generate_docs():
+    # Auto-documentation generation
+    PRINT "Documentation created."
+END_FUNCTION
+
+ENABLE_COMMUNITY_SUBMISSIONS()
+ENABLE_VERSION_CONTROL("git")
