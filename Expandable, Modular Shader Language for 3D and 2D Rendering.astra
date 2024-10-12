@@ -1,0 +1,22 @@
+# AstraPrime Shader Language for Custom Rendering Effects
+
+DEFINE FUNCTION CREATE_SHADER_MODULE(type, code):
+    # Create a shader module (vertex or fragment) with custom code
+    IF type == "VERTEX":
+        COMPILE_VERTEX_SHADER(code)
+    ELSE IF type == "FRAGMENT":
+        COMPILE_FRAGMENT_SHADER(code)
+    PRINT type + " shader module created and compiled."
+END_FUNCTION
+
+DEFINE FUNCTION ATTACH_SHADER_MODULE(shader_program, shader_module):
+    # Attach a shader module to a rendering program
+    LINK_SHADER_MODULE(shader_program, shader_module)
+    PRINT "Shader module attached to program."
+END_FUNCTION
+
+DEFINE FUNCTION USE_CUSTOM_SHADER(shader_program):
+    # Use a custom shader program for rendering
+    ACTIVATE_SHADER_PROGRAM(shader_program)
+    PRINT "Custom shader program activated."
+END_FUNCTION
