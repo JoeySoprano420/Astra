@@ -1,0 +1,45 @@
+# AstraPrime Advanced Type Checking
+DEFINE FUNCTION type_check(parse_tree):
+    FOR EACH node IN parse_tree:
+        VALIDATE_TYPE(node)
+        IF node IS INVALID:
+            RECONSTRUCT_LINE(node)
+        ELSE:
+            CONTINUE
+    PRINT "Type Checking Completed."
+END_FUNCTION
+
+DEFINE FUNCTION VALIDATE_TYPE(node):
+    CASE node.type OF:
+        "IDENTIFIER":
+            # Check against the type table
+            VARIABLE_TYPE = LOOKUP_TYPE(node.value)
+            IF VARIABLE_TYPE IS UNDEFINED:
+                PRINT "Error: Undefined identifier " + node.value
+                node.IS_INVALID = TRUE
+        "OPERATOR":
+            # Ensure valid operators are used with correct operand types
+            CHECK_OPERANDS(node)
+        DEFAULT:
+            PRINT "Error: Unknown node type in type checking"
+            node.IS_INVALID = TRUE
+    END_CASE
+END_FUNCTION
+
+DEFINE FUNCTION CHECK_OPERANDS(node):
+    LEFT_OPERAND = GET_OPERAND(node, "left")
+    RIGHT_OPERAND = GET_OPERAND(node, "right")
+    
+    IF LEFT_OPERAND.TYPE != RIGHT_OPERAND.TYPE:
+        PRINT "Error: Type mismatch in operation"
+        node.IS_INVALID = TRUE
+    ELSE:
+        PRINT "Operands match correctly."
+END_FUNCTION
+
+DEFINE FUNCTION RECONSTRUCT_LINE(node):
+    # Dynamically remodel the code to fix type errors intuitively
+    PRINT "Attempting to reconstruct line with type error."
+    CONTEXTUAL_REBUILD(node)
+    PRINT "Reconstruction complete."
+END_FUNCTION
