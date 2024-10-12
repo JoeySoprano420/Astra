@@ -1,0 +1,10 @@
+# AstraPrime Multi-Dimensional Rendering
+DEFINE FUNCTION SWITCH_RENDER_MODE(mode):
+    IF mode == "2D":
+        SET_RENDER_MODE("2D")
+        PRINT "Switched to 2D mode."
+    ELSE IF mode == "3D":
+        SET_RENDER_MODE("3D")
+        PRINT "Switched to 3D mode."
+    END_IF
+END_FUNCTION
