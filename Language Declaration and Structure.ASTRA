@@ -1,0 +1,7 @@
+DEFINE LANGUAGE AstraPrime VERSION "2.0"
+
+DEFINE FUNCTION main():
+    PRINT "Welcome to AstraPrime!"
+END_FUNCTION
+
+CALL main()  # Entry point
