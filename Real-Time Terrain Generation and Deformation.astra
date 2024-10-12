@@ -1,0 +1,20 @@
+# AstraPrime Terrain Generation and Deformation
+
+DEFINE FUNCTION GENERATE_PROCEDURAL_TERRAIN(seed, size, complexity):
+    # Generate terrain procedurally using a seed value
+    TERRAIN = CREATE_TERRAIN(seed, size, complexity)
+    APPLY_HEIGHTMAP(TERRAIN.HEIGHTMAP)
+    PRINT "Procedural terrain generated with seed: " + seed
+END_FUNCTION
+
+DEFINE FUNCTION DEFORM_TERRAIN(terrain, deformation_vector):
+    # Deform the terrain in real-time (e.g., for craters, earthquakes)
+    MODIFY_TERRAIN_HEIGHTMAP(terrain, deformation_vector)
+    PRINT "Terrain deformed at position: " + deformation_vector
+END_FUNCTION
+
+DEFINE FUNCTION APPLY_TEXTURE_TO_TERRAIN(terrain, texture):
+    # Apply texture to the generated terrain
+    BIND_TEXTURE_TO_TERRAIN(terrain, texture)
+    PRINT "Texture applied to terrain."
+END_FUNCTION
