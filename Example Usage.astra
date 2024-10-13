@@ -1,0 +1,20 @@
+# Example usage of the Audio Library
+
+INIT_AUDIO()
+background_music = SET_BACKGROUND_MUSIC("path/to/background_music.mp3")
+sound_effect = LOAD_SOUND("path/to/sound_effect.wav")
+
+PLAY_SOUND(sound_effect)
+SET_VOLUME(sound_effect, 0.8)
+
+# Simulate a game loop
+WHILE GAME_IS_RUNNING:
+    # Game logic here...
+    
+    IF PLAYER_JUMPS:
+        PLAY_SOUND(sound_effect)
+
+    # Update spatial audio
+    SPATIAL_AUDIO_SETTINGS(PLAYER_POSITION, PLAYER_ORIENTATION)
+
+FADE_OUT(background_music, 5)
