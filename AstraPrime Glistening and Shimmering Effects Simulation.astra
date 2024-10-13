@@ -1,0 +1,91 @@
+# AstraPrime Glistening and Shimmering Effects Simulation
+
+DEFINE FUNCTION INIT_GLISTENING_EFFECT(surface, intensity, frequency):
+    # Initialize glistening effect on a surface
+    surface.GLISTENING_INTENSITY = intensity
+    surface.GLISTENING_FREQUENCY = frequency
+    REGISTER_GLISTENING(surface)
+    PRINT "Glistening effect initialized on surface with intensity: " + intensity
+END_FUNCTION
+
+DEFINE FUNCTION SIMULATE_SHIMMERING(surface, light_angle, time_step):
+    # Simulate shimmering effect on a surface based on light angle and time
+    shimmer_strength = CALCULATE_SHIMMER_STRENGTH(light_angle, surface.GLISTENING_INTENSITY, time_step)
+    
+    FOR EACH pixel IN surface:
+        pixel.COLOR += shimmer_strength
+        UPDATE_PIXEL_COLOR(pixel)
+    
+    PRINT "Shimmering effect applied on surface."
+
+END_FUNCTION
+
+DEFINE FUNCTION CALCULATE_SHIMMER_STRENGTH(light_angle, intensity, time_step):
+    # Calculate shimmer strength based on light angle and intensity
+    RETURN intensity * ABS(SIN(light_angle + time_step * surface.GLISTENING_FREQUENCY))
+END_FUNCTION
+
+# Enhanced Glistening and Shimmering Effects with User Controls
+
+DEFINE FUNCTION SET_GLISTENING_INTENSITY(surface, new_intensity):
+    # Dynamically adjust glistening intensity based on user input
+    IF new_intensity < 0 THEN
+        new_intensity = 0
+    ELSE IF new_intensity > 1 THEN
+        new_intensity = 1
+    END_IF
+    surface.GLISTENING_INTENSITY = new_intensity
+    PRINT "Glistening intensity set to: " + new_intensity
+END_FUNCTION
+
+DEFINE FUNCTION SET_GLISTENING_FREQUENCY(surface, new_frequency):
+    # Dynamically adjust glistening frequency based on user input
+    IF new_frequency < 0 THEN
+        new_frequency = 0
+    END_IF
+    surface.GLISTENING_FREQUENCY = new_frequency
+    PRINT "Glistening frequency set to: " + new_frequency
+END_FUNCTION
+
+# Performance Optimization: Caching and Throttling Effects
+
+DEFINE FUNCTION CACHED_SIMULATE_SHIMMERING(surface, light_angle, time_step):
+    # Use a cache to store previous shimmer strengths for performance optimization
+    cached_strengths = {}
+    
+    FOR EACH pixel IN surface:
+        cache_key = pixel.COORDINATES + ":" + light_angle + ":" + time_step
+        IF cache_key NOT IN cached_strengths THEN
+            shimmer_strength = CALCULATE_SHIMMER_STRENGTH(light_angle, surface.GLISTENING_INTENSITY, time_step)
+            cached_strengths[cache_key] = shimmer_strength
+        ELSE
+            shimmer_strength = cached_strengths[cache_key]
+        END_IF
+        
+        pixel.COLOR += shimmer_strength
+        UPDATE_PIXEL_COLOR(pixel)
+    
+    PRINT "Cached shimmering effect applied on surface."
+END_FUNCTION
+
+# User Interaction: Adjust effects in real-time
+
+DEFINE FUNCTION USER_CONTROL_LOOP(surface):
+    # Control loop for user input
+    WHILE TRUE:
+        user_input = GET_USER_INPUT("Enter command (set_intensity, set_frequency, exit): ")
+        
+        IF user_input == "set_intensity" THEN
+            new_intensity = GET_USER_INPUT("Enter new intensity (0-1): ")
+            CALL SET_GLISTENING_INTENSITY(surface, new_intensity)
+        ELSE IF user_input == "set_frequency" THEN
+            new_frequency = GET_USER_INPUT("Enter new frequency: ")
+            CALL SET_GLISTENING_FREQUENCY(surface, new_frequency)
+        ELSE IF user_input == "exit" THEN
+            PRINT "Exiting user control loop."
+            BREAK
+        ELSE
+            PRINT "Invalid command. Please try again."
+        END_IF
+    END_WHILE
+END_FUNCTION
