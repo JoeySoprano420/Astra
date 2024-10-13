@@ -1,0 +1,9 @@
+# Extend VM to Support EAL and Other Languages
+DEFINE FUNCTION extend_language_support(lang):
+    IF lang == "EAL":
+        PRINT("Extending to EAL")
+        INCLUDE_LIBRARY("EALInterpreter")
+        RETURN EALInterpreter()
+    ELSE:
+        PRINT("Language not supported.")
+        RETURN False
