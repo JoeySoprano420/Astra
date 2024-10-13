@@ -1,0 +1,31 @@
+# AstraPrime Data Manipulation Library
+
+DEFINE LIBRARY DATA_MANIPULATION:
+
+    DEFINE FUNCTION CREATE_ARRAY(size):
+        # Create a new array of specified size
+        RETURN NEW_ARRAY(size)
+    END_FUNCTION
+
+    DEFINE FUNCTION SORT_ARRAY(array):
+        # Sort an array using a quicksort algorithm
+        RETURN QUICK_SORT(array)
+    END_FUNCTION
+
+    DEFINE FUNCTION SEARCH_ARRAY(array, value):
+        # Search for a value in an array
+        index = LINEAR_SEARCH(array, value)
+        IF index != -1 THEN
+            PRINT "Value found at index: " + index
+        ELSE
+            PRINT "Value not found in the array."
+        END_IF
+        RETURN index
+    END_FUNCTION
+
+    DEFINE FUNCTION FILTER_ARRAY(array, condition):
+        # Filter an array based on a given condition
+        RETURN FILTER(array, condition)
+    END_FUNCTION
+
+END_LIBRARY
