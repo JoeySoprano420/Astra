@@ -384,3 +384,148 @@ DEFINE FUNCTION custom_fibonacci_example():
     PRINT "Odd Fibonacci Sequence (first 5): ", odd_fibonacci_sequence(5)
     PRINT "Even Fibonacci Sequence (first 5): ", even_fibonacci_sequence(5)
 END_FUNCTION
+
+# Import necessary multithreading and graphics libraries
+INCLUDE_LIBRARY "multithreading"
+INCLUDE_LIBRARY "graphics"
+
+# Global memoization dictionary for caching Fibonacci results
+DEFINE GLOBAL memo = {}
+
+# Advanced Fibonacci Modes for additional sequence types
+DEFINE ENUM FibonacciMode:
+    STANDARD
+    MODULO
+    TRUNCATED
+    PRIME
+    ODD
+    EVEN
+
+# Polyconditional Fibonacci with Multithreading and Customization
+DEFINE FUNCTION fibonacci_polyconditional(n, mode, modulus=1000, truncate_limit=100):
+    # Polyconditional Error Handling: Input Validation
+    IF n < 0 THEN:
+        PRINT "Error: Fibonacci is not defined for negative numbers."
+        RETURN -1  # Error code for invalid input
+    END_IF
+
+    # Multithreaded Fibonacci Computation for higher values of n
+    IF n > 30 THEN:
+        PRINT "Using multithreaded computation for large n values..."
+        RETURN fibonacci_multithreaded(n, mode, modulus, truncate_limit)
+    ELSE:
+        RETURN fibonacci_sequential(n, mode, modulus, truncate_limit)
+
+# Multithreaded Fibonacci Function
+DEFINE FUNCTION fibonacci_multithreaded(n, mode, modulus, truncate_limit):
+    # Create threads for calculating Fibonacci numbers in parallel
+    thread1 = CREATE_THREAD fibonacci_worker(0, n // 2, mode, modulus, truncate_limit)
+    thread2 = CREATE_THREAD fibonacci_worker(n // 2 + 1, n, mode, modulus, truncate_limit)
+
+    # Wait for threads to finish and combine results
+    result1 = WAIT_THREAD thread1
+    result2 = WAIT_THREAD thread2
+
+    RETURN result1 + result2  # Combine thread results
+
+DEFINE FUNCTION fibonacci_worker(start, end, mode, modulus, truncate_limit):
+    result = 0
+    FOR i = start TO end:
+        result += fibonacci_sequential(i, mode, modulus, truncate_limit)
+    RETURN result
+
+# Sequential Fibonacci Function
+DEFINE FUNCTION fibonacci_sequential(n, mode, modulus, truncate_limit):
+    IF mode == FibonacciMode.STANDARD THEN:
+        RETURN fibonacci_standard(n)
+    ELSE IF mode == FibonacciMode.MODULO THEN:
+        RETURN fibonacci_modulo(n, modulus)
+    ELSE IF mode == FibonacciMode.TRUNCATED THEN:
+        RETURN fibonacci_truncated(n, truncate_limit)
+    ELSE IF mode == FibonacciMode.PRIME THEN:
+        RETURN fibonacci_prime(n)
+    ELSE IF mode == FibonacciMode.ODD THEN:
+        RETURN fibonacci_odd(n)
+    ELSE IF mode == FibonacciMode.EVEN THEN:
+        RETURN fibonacci_even(n)
+    ELSE:
+        PRINT "Error: Unknown Fibonacci mode selected."
+        RETURN -1  # Error code for unknown mode
+
+# Standard Fibonacci Function with Memoization
+DEFINE FUNCTION fibonacci_standard(n):
+    IF n IN memo THEN:
+        RETURN memo[n]  # Return cached result
+    ELSE IF n == 0 THEN
+        RETURN 0
+    ELSE IF n == 1 THEN
+        RETURN 1
+    # Recursive calculation with caching
+    memo[n] = fibonacci_standard(n - 1) + fibonacci_standard(n - 2)
+    RETURN memo[n]
+
+# Modulo-based Fibonacci Function
+DEFINE FUNCTION fibonacci_modulo(n, modulus):
+    RETURN fibonacci_standard(n) % modulus
+
+# Truncated Fibonacci Function (limits sequence length)
+DEFINE FUNCTION fibonacci_truncated(n, truncate_limit):
+    IF n > truncate_limit THEN:
+        RETURN 0
+    ELSE:
+        RETURN fibonacci_standard(n)
+
+# Prime Fibonacci Sequence Function (returns Fibonacci primes only)
+DEFINE FUNCTION fibonacci_prime(n):
+    fib_num = fibonacci_standard(n)
+    IF is_prime(fib_num) THEN:
+        RETURN fib_num
+    ELSE:
+        RETURN 0
+
+# Odd Fibonacci Sequence Function
+DEFINE FUNCTION fibonacci_odd(n):
+    fib_num = fibonacci_standard(n)
+    IF fib_num % 2 != 0 THEN:
+        RETURN fib_num
+    ELSE:
+        RETURN 0
+
+# Even Fibonacci Sequence Function
+DEFINE FUNCTION fibonacci_even(n):
+    fib_num = fibonacci_standard(n)
+    IF fib_num % 2 == 0 THEN:
+        RETURN fib_num
+    ELSE:
+        RETURN 0
+
+# Helper Function to Check if a Number is Prime
+DEFINE FUNCTION is_prime(num):
+    IF num < 2 THEN RETURN FALSE
+    FOR i = 2 TO SQRT(num):
+        IF num % i == 0 THEN RETURN FALSE
+    RETURN TRUE
+
+# Visualization Function for Fibonacci Sequence
+DEFINE FUNCTION visualize_fibonacci_sequence(n):
+    # Generate Fibonacci sequence for plotting
+    sequence = []
+    FOR i = 0 TO n:
+        APPEND sequence, fibonacci_standard(i)
+    
+    # Plot sequence using hypothetical graphics library
+    PLOT(sequence, "Fibonacci Sequence", x_label="n", y_label="Fibonacci(n)")
+    PRINT "Fibonacci sequence up to F(", n, ") plotted successfully."
+
+# Example Usage
+DEFINE FUNCTION run_fibonacci():
+    n = 40
+    mode = FibonacciMode.STANDARD
+    result = fibonacci_polyconditional(n, mode)
+    PRINT "F(", n, ") = ", result
+
+    # Visualize Fibonacci sequence
+    visualize_fibonacci_sequence(15)
+
+# Running the Example
+run_fibonacci()
