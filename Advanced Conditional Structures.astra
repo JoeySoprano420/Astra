@@ -1,0 +1,15 @@
+# Advanced Multi-Way Conditional Structure
+DEFINE FUNCTION advanced_conditional_example(value):
+    SWITCH value:
+        CASE 1:
+            PRINT "Value is One"
+            BREAK
+        CASE 2:
+            PRINT "Value is Two"
+            BREAK
+        CASE 3 TO 5:
+            PRINT "Value is between Three and Five"
+            BREAK
+        DEFAULT:
+            PRINT "Value is something else"
+END_FUNCTION
