@@ -19,3 +19,66 @@ DEFINE CLASS Point:
         RETURN SQRT((to.x - self.x) ^ 2 + (to.y - self.y) ^ 2)
     END_FUNCTION
 END_CLASS
+
+# Enhanced Data Types
+
+# Tuple Type Definition
+DEFINE CLASS Tuple:
+    ATTRIBUTES:
+        elements
+
+    DEFINE CONSTRUCTOR(*args):
+        self.elements = LIST(args)
+
+    DEFINE FUNCTION get(index):
+        RETURN self.elements[index]
+
+# Dictionary Type Definition
+DEFINE CLASS Dictionary:
+    ATTRIBUTES:
+        items
+
+    DEFINE CONSTRUCTOR():
+        self.items = {}
+
+    DEFINE FUNCTION add(key, value):
+        self.items[key] = value
+
+    DEFINE FUNCTION get(key):
+        RETURN self.items[key] IF key IN self.items ELSE NULL
+
+# Example Usage of Enhanced Data Types
+DEFINE FUNCTION advanced_data_types_example():
+    my_tuple = Tuple(1, "hello", 3.14)
+    PRINT "Tuple Element: ", my_tuple.get(1)
+
+    my_dict = Dictionary()
+    my_dict.add("name", "AstraPrime")
+    PRINT "Dictionary Value: ", my_dict.get("name")
+END_FUNCTION
+
+# Custom Objects and Prototypes
+
+DEFINE CLASS Animal:
+    ATTRIBUTES:
+        name
+        sound
+
+    DEFINE CONSTRUCTOR(name, sound):
+        self.name = name
+        self.sound = sound
+
+    DEFINE FUNCTION make_sound():
+        PRINT self.name + " says " + self.sound
+
+# Prototype-based inheritance
+DEFINE CLASS Dog EXTENDS Animal:
+    DEFINE CONSTRUCTOR(name):
+        SUPER(name, "Woof")
+
+# Example Usage of Custom Objects
+DEFINE FUNCTION object_prototype_example():
+    dog = Dog("Buddy")
+    dog.make_sound()  # Outputs: Buddy says Woof
+END_FUNCTION
+
