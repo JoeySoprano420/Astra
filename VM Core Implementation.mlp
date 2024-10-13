@@ -1,0 +1,54 @@
+# Define the AstraPrime VM Core
+INCLUDE_LIBRARY "ML-Plus"
+
+DEFINE CLASS AstraPrimeVM:
+    # Core VM State: Stack, Registers, Memory, Instruction Pointer
+    ATTRIBUTES:
+        stack = []
+        registers = {}
+        memory = {}
+        ip = 0
+        current_file = None
+
+    # VM Initialization Method
+    FUNCTION initialize():
+        PRINT("Initializing AstraPrime Virtual Machine")
+        # Allocate memory, set instruction pointer
+        memory = ALLOCATE_MEMORY(1024 * 1024)  # 1MB of memory
+        ip = 0
+
+    # Load AstraPrime Code into Memory
+    FUNCTION load_code(file):
+        PRINT("Loading AstraPrime code from file: " + file)
+        current_file = file
+        WITH OPEN(file, 'r') AS f:
+            code = f.READ()
+            memory[ip:ip + LENGTH(code)] = code
+        RETURN True
+
+    # VM Execution Cycle: Fetch, Decode, Execute
+    FUNCTION run():
+        WHILE ip < LENGTH(memory):
+            instr = memory[ip]
+            ip += 1
+            PROCESS_INSTRUCTION(instr)
+    
+    # Instruction Processing
+    FUNCTION process_instruction(instr):
+        CASE instr[0]:
+            # Example instructions
+            WHEN "ADD":
+                reg1 = instr[1]
+                reg2 = instr[2]
+                registers[reg1] += registers[reg2]
+            WHEN "MOV":
+                reg1 = instr[1]
+                value = instr[2]
+                registers[reg1] = value
+            ELSE:
+                PRINT("Unknown Instruction: " + instr)
+
+    FUNCTION stop():
+        PRINT("Stopping VM")
+        RETURN
+
