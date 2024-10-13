@@ -1,0 +1,7 @@
+# Advanced Variable Watching
+DEFINE FUNCTION WATCH_VARIABLE(var_name):
+    WHILE program_running:
+        IF GET_VARIABLE_VALUE(var_name) != previous_value:
+            PRINT "Value of " + var_name + " changed to " + GET_VARIABLE_VALUE(var_name)
+        previous_value = GET_VARIABLE_VALUE(var_name)
+END_FUNCTION
