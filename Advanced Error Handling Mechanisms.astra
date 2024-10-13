@@ -234,3 +234,28 @@ DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
         APPEND suggestions, "Consider adding checks for null or undefined values."
     RETURN suggestions
 END_FUNCTION
+
+# Sophisticated Error Classification and Handling
+DEFINE FUNCTION CLASSIFY_ERROR(error):
+    IF error.TYPE MATCH "LEXICAL":
+        RETURN CREATE_ERROR("Lexical Error", error.MESSAGE, "WARNING")
+    ELSE IF error.TYPE MATCH "PARSING":
+        RETURN CREATE_ERROR("Parsing Error", error.MESSAGE, "CRITICAL")
+    ELSE IF error.TYPE MATCH "SEMANTIC":
+        RETURN CREATE_ERROR("Semantic Error", error.MESSAGE, "ERROR")
+    ELSE IF error.TYPE MATCH "RUNTIME":
+        RETURN CREATE_ERROR("Runtime Error", error.MESSAGE, "FATAL")
+    ELSE:
+        RETURN CREATE_ERROR("Unknown Error", error.MESSAGE, "ERROR")
+END_FUNCTION
+
+DEFINE FUNCTION LOG_ERROR(error):
+    # Log with contextual information and suggestions
+    WRITE_TO_FILE "error_log.txt",
+        "Timestamp: " + CURRENT_TIMESTAMP() +
+        ", Severity: " + error.SEVERITY +
+        ", Message: " + error.ERROR_MESSAGE +
+        ", Location: " + error.LOCATION +
+        ", Suggestions: " + error.SUGGESTIONS +
+        ", Call Stack: " + error.STACK_TRACE
+END_FUNCTION
