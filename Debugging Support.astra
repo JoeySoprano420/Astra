@@ -104,3 +104,27 @@ DEFINE FUNCTION HANDLE_USER_COMMAND(command, debugger_state):
         DEFAULT:
             PRINT "Unknown command."
 END_FUNCTION
+
+# Interactive Debugging Interface
+DEFINE FUNCTION start_debugging_session():
+    PRINT "Starting Debugging Session..."
+    SET_BREAKPOINTS()
+    WHILE program_running:
+        EXECUTE_LINE()
+        DISPLAY_CURRENT_STATE()
+        IF user_requests_debug_command:
+            HANDLE_DEBUG_COMMAND()
+    PRINT "Debugging Session Ended."
+END_FUNCTION
+
+DEFINE FUNCTION SET_BREAKPOINTS():
+    # Set breakpoints as specified by the user
+END_FUNCTION
+
+DEFINE FUNCTION DISPLAY_CURRENT_STATE():
+    # Show current values of variables and the call stack
+END_FUNCTION
+
+DEFINE FUNCTION HANDLE_DEBUG_COMMAND():
+    # Process user debug commands (step over, step into, continue, etc.)
+END_FUNCTION
