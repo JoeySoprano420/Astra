@@ -1,0 +1,108 @@
+# Expanded AstraPrime Audio Library
+
+    DEFINE FUNCTION INITIALIZE_AUDIO_SYSTEM():
+        # Initialize the audio system and prepare for sound playback
+        audio_system_initialized = TRUE
+        PRINT "Audio system initialized successfully."
+    END_FUNCTION
+
+    DEFINE FUNCTION LOAD_SOUND(file_path):
+        # Load a sound file and return a sound object
+        sound = CREATE SOUND_OBJECT(file_path)
+        PRINT "Sound loaded from path: " + file_path
+        RETURN sound
+    END_FUNCTION
+
+    DEFINE FUNCTION SET_BACKGROUND_MUSIC(file_path):
+        # Set the background music for the game
+        background_music = LOAD_SOUND(file_path)
+        PLAY(background_music)
+        PRINT "Background music set and playing: " + file_path
+    END_FUNCTION
+
+    DEFINE FUNCTION SET_VOLUME(sound, volume_level):
+        # Set the volume level for a given sound object
+        sound.VOLUME = volume_level
+        PRINT "Volume set to " + volume_level + " for sound."
+    END_FUNCTION
+
+    DEFINE FUNCTION MIX_AUDIO_TRACKS(tracks, output_track):
+        # Mix multiple audio tracks together
+        mixed_sound = CREATE MIXED_SOUND_OBJECT()
+        FOR EACH track IN tracks:
+            mixed_sound.ADD_TRACK(track)
+        OUTPUT_SOUND(mixed_sound, output_track)
+        PRINT "Audio tracks mixed into output track."
+    END_FUNCTION
+
+    DEFINE FUNCTION APPLY_AUDIO_EFFECT(sound, effect_type, parameters):
+        # Apply audio effects (e.g., reverb, distortion) to a sound
+        SWITCH effect_type:
+            CASE "REVERB":
+                sound.EFFECTS.ADD_REVERB(parameters)
+                PRINT "Reverb effect applied to sound."
+            CASE "DISTORTION":
+                sound.EFFECTS.ADD_DISTORTION(parameters)
+                PRINT "Distortion effect applied to sound."
+            CASE "EQUALIZATION":
+                sound.EFFECTS.ADD_EQUALIZATION(parameters)
+                PRINT "Equalization effect applied to sound."
+            DEFAULT:
+                PRINT "Unknown effect type. No effect applied."
+        END_SWITCH
+    END_FUNCTION
+
+    DEFINE FUNCTION SET_3D_AUDIO_POSITION(sound, position, listener_position):
+        # Set the 3D position of an audio source and calculate spatial effects
+        sound.POSITION = position
+        sound.DISTANCE_FROM_LISTENER = CALCULATE_DISTANCE(position, listener_position)
+        PRINT "3D audio position set to: " + position
+    END_FUNCTION
+
+    DEFINE FUNCTION CALCULATE_DISTANCE(position1, position2):
+        # Calculate the distance between two 3D points
+        distance = SQRT( (position1.X - position2.X)^2 + (position1.Y - position2.Y)^2 + (position1.Z - position2.Z)^2 )
+        RETURN distance
+    END_FUNCTION
+
+    DEFINE FUNCTION DYNAMIC_MIXING_ADJUSTMENTS(sound, condition):
+        # Adjust the sound mix based on dynamic conditions
+        IF condition == "ACTION_SCENE":
+            SET_VOLUME(sound, 1.0)
+            PRINT "Increased volume for action scene."
+        ELSE IF condition == "QUIET_SCENE":
+            SET_VOLUME(sound, 0.3)
+            PRINT "Decreased volume for quiet scene."
+        ELSE:
+            PRINT "No adjustments made."
+    END_FUNCTION
+
+    # Example usage of the enhanced audio system
+    FUNCTION PLAY_GAME_AUDIO():
+        INITIALIZE_AUDIO_SYSTEM()
+        background_music = LOAD_SOUND("background.mp3")
+        action_sound = LOAD_SOUND("action.wav")
+        ambient_sound = LOAD_SOUND("ambient.ogg")
+
+        SET_BACKGROUND_MUSIC("background.mp3")
+
+        # Add event listeners for dynamic sound changes
+        ADD_EVENT_LISTENER("ACTION_START", lambda: TRIGGER_EVENT("ACTION_SCENE", action_sound))
+        ADD_EVENT_LISTENER("QUIET_MOMENT", lambda: TRIGGER_EVENT("QUIET_SCENE", ambient_sound))
+
+        # Game loop
+        WHILE game_is_running:
+            IF player_action_detected:
+                TRIGGER_EVENT("ACTION_START", action_sound)
+                DYNAMIC_MIXING_ADJUSTMENTS(action_sound, "ACTION_SCENE")
+            IF player_in_quiet_area:
+                TRIGGER_EVENT("QUIET_MOMENT", ambient_sound)
+                DYNAMIC_MIXING_ADJUSTMENTS(ambient_sound, "QUIET_SCENE")
+            
+            # Set 3D positions for sounds based on player location
+            SET_3D_AUDIO_POSITION(action_sound, player_position, listener_position)
+            WAIT(0.1)  # Delay to simulate frame timing
+
+    END_FUNCTION
+
+END_LIBRARY
