@@ -132,3 +132,43 @@ DEFINE FUNCTION infinite_loop_with_exit_condition():
             BREAK
 END_FUNCTION
 
+# Enhanced Ternary Operator
+DEFINE FUNCTION enhanced_ternary_example(a, b):
+    result = (a > b) ? "a is greater" : (a < b) ? "b is greater" : "a and b are equal"
+    PRINT result
+END_FUNCTION
+
+# Using Guard Clauses for Clarity
+DEFINE FUNCTION process_value(value):
+    IF value IS NULL:
+        PRINT "Value cannot be null."
+        RETURN
+    
+    IF value < 0:
+        PRINT "Value is negative. Exiting."
+        RETURN
+    
+    PRINT "Processing value: ", value
+END_FUNCTION
+
+# Enhanced For-Each Loop Example
+DEFINE FUNCTION enhanced_for_each_example(collection):
+    FOR item IN collection:
+        PRINT "Item: ", item
+END_FUNCTION
+
+# Usage
+DEFINE FUNCTION test_for_each():
+    fruits = ["Apple", "Banana", "Cherry"]
+    enhanced_for_each_example(fruits)
+END_FUNCTION
+
+# Do-While Loop Example
+DEFINE FUNCTION do_while_example():
+    counter = 0
+    DO:
+        PRINT "Counter is: ", counter
+        counter += 1
+    WHILE (counter < 5)
+END_FUNCTION
+
