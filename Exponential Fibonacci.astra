@@ -43,3 +43,104 @@ DEFINE FUNCTION fibonacci_example():
     PRINT "Exponential Fibonacci F(", n, ") = ", fibonacci_exponential(n)
 END_FUNCTION
 
+# Comprehensive Fibonacci Function Implementations with Enhancements
+
+# Global memoization dictionary for storing Fibonacci results
+DEFINE GLOBAL memo = {}
+
+# Standard Fibonacci Function with Memoization
+DEFINE FUNCTION fibonacci_standard(n):
+    IF n < 0 THEN
+        PRINT "Error: Fibonacci is not defined for negative numbers."
+        RETURN -1  # Error code for invalid input
+    ELSE IF n IN memo THEN
+        RETURN memo[n]  # Return cached result
+    ELSE IF n == 0 THEN
+        RETURN 0
+    ELSE IF n == 1 THEN
+        RETURN 1
+
+    # Calculate and cache the result
+    memo[n] = fibonacci_standard(n - 1) + fibonacci_standard(n - 2)
+    RETURN memo[n]
+
+# Exponential Fibonacci Function using Matrix Exponentiation
+DEFINE FUNCTION fibonacci_exponential(n):
+    IF n < 0 THEN
+        PRINT "Error: Fibonacci is not defined for negative numbers."
+        RETURN -1  # Error code for invalid input
+    ELSE IF n == 0 THEN
+        RETURN 0
+    ELSE IF n == 1 THEN
+        RETURN 1
+
+    # Matrix multiplication function
+    DEFINE FUNCTION matrix_mult(A, B):
+        RETURN [
+            [A[0][0] * B[0][0] + A[0][1] * B[1][0], A[0][0] * B[0][1] + A[0][1] * B[1][1]],
+            [A[1][0] * B[0][0] + A[1][1] * B[1][0], A[1][0] * B[0][1] + A[1][1] * B[1][1]]
+        ]
+
+    # Matrix exponentiation function
+    DEFINE FUNCTION matrix_pow(M, power):
+        # Initialize the result as the identity matrix
+        result = [[1, 0], [0, 1]]
+        
+        WHILE power > 0:
+            IF power % 2 == 1 THEN
+                result = matrix_mult(result, M)
+            M = matrix_mult(M, M)
+            power //= 2
+        
+        RETURN result
+
+    # The transformation matrix
+    fib_matrix = [[1, 1], [1, 0]]
+    result_matrix = matrix_pow(fib_matrix, n - 1)
+    
+    RETURN result_matrix[0][0]  # F(n) is located in the first row, first column
+
+# Function to display the Fibonacci sequence up to n terms
+DEFINE FUNCTION display_fibonacci_sequence(n, method):
+    PRINT "Fibonacci Sequence using ", method, ":"
+    FOR i FROM 0 TO n:
+        IF method == "Standard":
+            PRINT fibonacci_standard(i), " ";  # Standard method
+        ELSE IF method == "Exponential":
+            PRINT fibonacci_exponential(i), " ";  # Exponential method
+    PRINT "\n"  # New line for better formatting
+
+# Function to measure execution time
+DEFINE FUNCTION measure_execution_time(func, n):
+    START_TIME = CURRENT_TIMESTAMP()
+    RESULT = func(n)
+    END_TIME = CURRENT_TIMESTAMP()
+    EXECUTION_TIME = END_TIME - START_TIME
+    RETURN (RESULT, EXECUTION_TIME)
+
+# User interaction function for getting input and displaying results
+DEFINE FUNCTION fibonacci_interaction():
+    PRINT "Enter the number of terms for the Fibonacci sequence (non-negative integer): "
+    n = INPUT()  # Get user input
+
+    IF n IS NOT A NUMBER OR n < 0 THEN
+        PRINT "Invalid input! Please enter a non-negative integer."
+        RETURN
+
+    n = CONVERT_TO_INTEGER(n)  # Convert input to integer
+    # Measure and display standard Fibonacci results
+    standard_result, standard_time = measure_execution_time(fibonacci_standard, n)
+    PRINT "Standard Fibonacci F(", n, ") = ", standard_result, " (Execution Time: ", standard_time, " seconds)"
+
+    # Measure and display exponential Fibonacci results
+    exponential_result, exponential_time = measure_execution_time(fibonacci_exponential, n)
+    PRINT "Exponential Fibonacci F(", n, ") = ", exponential_result, " (Execution Time: ", exponential_time, " seconds)"
+    
+    # Display the complete Fibonacci sequence
+    display_fibonacci_sequence(n, "Standard")
+    display_fibonacci_sequence(n, "Exponential")
+    
+END_FUNCTION
+
+# Example Usage of Fibonacci Interaction
+fibonacci_interaction()  # Start the user interaction for Fibonacci computation
