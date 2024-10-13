@@ -13,3 +13,122 @@ DEFINE FUNCTION advanced_conditional_example(value):
         DEFAULT:
             PRINT "Value is something else"
 END_FUNCTION
+
+# Polyconditional Statement with Compound Conditions
+DEFINE FUNCTION polyconditional_example(x, y):
+    IF (x > 10 AND y < 5) OR (x < 5 AND y > 10):
+        PRINT "One of the conditions is met."
+    ELSE IF (x == 0 XOR y == 0):
+        PRINT "One of the values is zero."
+    ELSE:
+        PRINT "No conditions were satisfied."
+END_FUNCTION
+
+# Enhanced For-Loop with Custom Iterators
+DEFINE FUNCTION enhanced_for_loop_example(collection):
+    FOR item IN collection:
+        PRINT item
+    END_FOR
+
+DEFINE FUNCTION custom_iterator(collection):
+    # A simple custom iterator for demonstration
+    FOR i FROM 0 TO LENGTH(collection) - 1:
+        YIELD collection[i]
+    END_FOR
+END_FUNCTION
+
+# Labeled Loop Example
+DEFINE FUNCTION labeled_loop_example():
+    OUTER_LOOP: FOR i FROM 1 TO 5:
+        INNER_LOOP: FOR j FROM 1 TO 5:
+            IF (i == 3 AND j == 3):
+                PRINT "Breaking out of both loops."
+                BREAK OUTER_LOOP
+            PRINT "i: ", i, " j: ", j
+END_FUNCTION
+
+# Advanced While Loop with Dynamic Condition
+DEFINE FUNCTION conditional_while_example():
+    value = 0
+    WHILE value < 10:
+        PRINT "Current Value: ", value
+        value += 1
+END_FUNCTION
+
+# Enhanced Do-While Loop
+DEFINE FUNCTION enhanced_do_while_example():
+    value = 0
+    DO:
+        PRINT "Executing at least once. Current Value: ", value
+        value += 1
+    WHILE value < 5
+END_FUNCTION
+
+# Short-Circuit Evaluation Example
+DEFINE FUNCTION short_circuit_example(x):
+    result = (x > 5 AND (PRINT "x is greater than 5" OR TRUE))
+    RETURN result
+END_FUNCTION
+
+# Enhanced Break and Continue
+DEFINE FUNCTION enhanced_break_continue_example():
+    FOR i FROM 0 TO 10:
+        IF i == 3:
+            PRINT "Skipping 3"
+            CONTINUE
+        IF i == 8:
+            PRINT "Breaking at 8"
+            BREAK
+        PRINT i
+END_FUNCTION
+
+# Advanced Switch Statement with Pattern Matching
+DEFINE FUNCTION advanced_switch_example(input):
+    SWITCH input:
+        CASE INTEGER:
+            PRINT "Input is an Integer: ", input
+        CASE STRING:
+            PRINT "Input is a String: ", input
+        CASE LIST:
+            PRINT "Input is a List of length: ", LENGTH(input)
+        DEFAULT:
+            PRINT "Unknown type"
+END_FUNCTION
+
+# Compound Conditional Example with Enhanced Operators
+DEFINE FUNCTION compound_conditional_example(a, b, c):
+    IF (a > 0 AND b < 10) OR (c == 5 AND NOT (a == b)):
+        PRINT "Conditions met: a is positive and b is less than 10, or c is 5 and a is not equal to b."
+    ELSE IF (a IS NULL OR b IS NULL):
+        PRINT "One of the variables is null."
+    ELSE:
+        PRINT "No conditions satisfied."
+END_FUNCTION
+
+# Dynamic For-Loop with Custom Steps
+DEFINE FUNCTION dynamic_for_loop_example(start, end, step):
+    FOR i FROM start TO end STEP step:
+        PRINT "Current value of i: ", i
+END_FUNCTION
+
+# Labeled Loop Example with Enhanced Control
+DEFINE FUNCTION labeled_loop_with_control():
+    OUTER_LOOP: FOR i FROM 1 TO 3:
+        INNER_LOOP: FOR j FROM 1 TO 3:
+            IF i == j:
+                PRINT "Breaking outer loop at i=", i, " j=", j
+                BREAK OUTER_LOOP
+            PRINT "i: ", i, " j: ", j
+END_FUNCTION
+
+# Infinite Loop with Exit Condition
+DEFINE FUNCTION infinite_loop_with_exit_condition():
+    counter = 0
+    WHILE TRUE:
+        PRINT "Counter is: ", counter
+        counter += 1
+        IF counter >= 10:
+            PRINT "Exiting loop."
+            BREAK
+END_FUNCTION
+
