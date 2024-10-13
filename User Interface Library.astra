@@ -1,0 +1,30 @@
+# AstraPrime User Interface Library
+
+DEFINE LIBRARY USER_INTERFACE:
+
+    DEFINE FUNCTION CREATE_BUTTON(label, onClick):
+        # Create a new button with a label and click event
+        button = NEW_BUTTON(label, onClick)
+        PRINT "Button created with label: " + label
+        RETURN button
+    END_FUNCTION
+
+    DEFINE FUNCTION CREATE_MENU(items):
+        # Create a menu with a list of items
+        menu = NEW_MENU(items)
+        PRINT "Menu created with items: " + items
+        RETURN menu
+    END_FUNCTION
+
+    DEFINE FUNCTION DISPLAY_MESSAGE(message):
+        # Display a message to the user
+        SHOW_MESSAGE(message)
+        PRINT "Message displayed: " + message
+    END_FUNCTION
+
+    DEFINE FUNCTION GET_USER_INPUT(prompt):
+        # Get user input from the console
+        RETURN INPUT(prompt)
+    END_FUNCTION
+
+END_LIBRARY
