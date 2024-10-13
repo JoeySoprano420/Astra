@@ -247,3 +247,46 @@ DEFINE FUNCTION OPTIMIZE_PARSE_TREE(parse_tree):
     DEAD_CODE_ELIMINATION(parse_tree)
 END_FUNCTION
 
+# Advanced AstraPrime Compiler: Direct Compilation to MDRI CIL
+DEFINE FUNCTION compile_to_mdril(parse_tree):
+    MDRI_CODE = INIT_CODE_BLOCK()
+    ERROR_LIST = []
+
+    FOR EACH node IN parse_tree:
+        ERROR = COMPILE_NODE_TO_MDRI(node, MDRI_CODE)
+        IF ERROR IS NOT NULL:
+            APPEND ERROR_LIST, ERROR
+    
+    # Output compiled MDRI CIL
+    WRITE_FILE "output.mdril", MDRI_CODE
+    PRINT "Compilation to MDRI Complete."
+    
+    RETURN (MDRI_CODE, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION COMPILE_NODE_TO_MDRI(node, MDRI_CODE):
+    CASE node.type OF:
+        "IDENTIFIER":
+            APPEND MDRI_CODE, "PUSH " + node.value
+        "OPERATOR":
+            APPEND MDRI_CODE, "OPER " + node.value
+        "SYMBOL":
+            HANDLE_SYMBOL(node, MDRI_CODE)
+        DEFAULT:
+            RETURN CREATE_ERROR("Error: Unknown node type in parsing: " + node.type)
+    END_CASE
+END_FUNCTION
+
+DEFINE FUNCTION HANDLE_SYMBOL(node, MDRI_CODE):
+    # Handling for specific symbols like brackets, semicolons
+    IF node.value MATCH "(":
+        APPEND MDRI_CODE, "CALL"
+    ELSE IF node.value MATCH ")":
+        APPEND MDRI_CODE, "ENDCALL"
+    ELSE IF node.value MATCH "{":
+        APPEND MDRI_CODE, "BLOCK_START"
+    ELSE IF node.value MATCH "}":
+        APPEND MDRI_CODE, "BLOCK_END"
+    ELSE:
+        RETURN CREATE_ERROR("Unhandled symbol: " + node.value)
+END_FUNCTION
