@@ -32,3 +32,39 @@ DEFINE FUNCTION DRAW_TERRAIN(terrain):
     APPLY_TERRAIN_TEXTURE(terrain.TEXTURE)
     PRINT "Terrain drawn with heightmap: " + terrain.HEIGHTMAP_FILE
 END_FUNCTION
+
+# AstraPrime 3D Rendering System (Continued)
+DEFINE FUNCTION DRAW_MESH(mesh):
+    # Draw 3D mesh with advanced features like textures, lighting, and shaders
+    BIND_MESH_DATA(mesh.VERTICES, mesh.INDICES)
+    APPLY_MATERIAL(mesh.MATERIAL)
+    APPLY_LIGHTING(mesh.LIGHT_SOURCE)
+    USE_SHADER(mesh.SHADER)
+    DRAW_TRIANGLES(mesh.VERTICES, mesh.INDICES)
+    PRINT "3D Mesh rendered: " + mesh.NAME
+END_FUNCTION
+
+DEFINE FUNCTION APPLY_MATERIAL(material):
+    # Apply material properties like diffuse, specular, and bump mapping
+    SET_MATERIAL_DIFFUSE(material.DIFFUSE_COLOR)
+    SET_MATERIAL_SPECULAR(material.SPECULAR_COLOR)
+    BIND_TEXTURE(material.TEXTURE)
+    PRINT "Material applied to mesh: " + material.NAME
+END_FUNCTION
+
+DEFINE FUNCTION APPLY_LIGHTING(light_source):
+    # Apply lighting settings such as position, intensity, and type (point, directional, etc.)
+    IF light_source.TYPE == "POINT":
+        SET_POINT_LIGHT(light_source.POSITION, light_source.INTENSITY)
+    ELSE IF light_source.TYPE == "DIRECTIONAL":
+        SET_DIRECTIONAL_LIGHT(light_source.DIRECTION, light_source.INTENSITY)
+    PRINT "Lighting applied: " + light_source.NAME
+END_FUNCTION
+
+DEFINE FUNCTION INITIALIZE_CAMERA():
+    # Set up the 3D camera for rendering with perspective projection
+    CAMERA_POSITION = VECTOR(0.0, 0.0, -10.0)
+    CAMERA_TARGET = VECTOR(0.0, 0.0, 0.0)
+    SET_CAMERA_PERSPECTIVE(CAMERA_POSITION, CAMERA_TARGET, 45.0, 1.0, 1000.0)
+    PRINT "3D Camera initialized."
+END_FUNCTION
