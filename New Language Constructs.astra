@@ -1,0 +1,47 @@
+# Inline Function Example (Lambda Expressions)
+DEFINE FUNCTION apply_function(f, value):
+    RETURN f(value)
+
+# Usage
+result = apply_function(LAMBDA x: x * 2, 5)
+PRINT "Result of applying inline function: ", result
+
+# Pattern Matching Example
+DEFINE FUNCTION process_data(data):
+    MATCH data:
+        CASE {type: "User", name: userName, age: userAge}:
+            PRINT "User Name: ", userName, " Age: ", userAge
+        CASE {type: "Product", id: productId, price: productPrice}:
+            PRINT "Product ID: ", productId, " Price: ", productPrice
+        DEFAULT:
+            PRINT "Unknown data type"
+END_FUNCTION
+
+# Example Usage
+user_data = {type: "User", name: "Alice", age: 30}
+process_data(user_data)
+
+# Asynchronous Function Example
+DEFINE ASYNC FUNCTION fetch_data():
+    PRINT "Fetching data..."
+    AWAIT SLEEP(2)  # Simulating an asynchronous operation
+    RETURN "Data retrieved!"
+
+# Usage of Async Function
+DEFINE FUNCTION main():
+    result = AWAIT fetch_data()
+    PRINT result
+END_FUNCTION
+
+# Task Management Example
+DEFINE FUNCTION manage_tasks():
+    task1 = ASYNC FUNCTION() AWAIT SLEEP(1) RETURN "Task 1 completed"
+    task2 = ASYNC FUNCTION() AWAIT SLEEP(2) RETURN "Task 2 completed"
+    
+    result1 = AWAIT task1()
+    result2 = AWAIT task2()
+    
+    PRINT result1
+    PRINT result2
+END_FUNCTION
+
