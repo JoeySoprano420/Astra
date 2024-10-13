@@ -1,0 +1,4 @@
+# EAL Example for AstraPrime Instructions
+MOV R1, 5       ; Move value 5 to Register R1
+ADD R1, R2      ; Add value in R2 to R1
+JMP label1      ; Jump to label1 if condition is met
