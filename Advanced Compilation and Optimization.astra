@@ -299,3 +299,35 @@ DEFINE FUNCTION register_allocation(ast):
     RETURN ast
 END_FUNCTION
 
+# Enhanced AstraPrime Compiler: Code Generation, Semantic Checks, and Optimization
+DEFINE FUNCTION compile_astraprime(source_code):
+    (TOKEN_LIST, ERROR_LIST) = lex_source_code(source_code)
+
+    # Check for lexical errors before proceeding
+    IF LENGTH(ERROR_LIST) > 0:
+        RETURN CREATE_ERROR("Lexical Errors Detected", ERROR_LIST)
+
+    # Parse tokens into an Abstract Syntax Tree (AST)
+    AST = parse_tokens(TOKEN_LIST)
+
+    # Check for parsing errors
+    IF IS_ERROR(AST):
+        RETURN CREATE_ERROR("Parsing Error", AST.ERROR_LIST)
+
+    # Perform semantic analysis
+    SEMANTIC_ERRORS = perform_semantic_analysis(AST)
+    IF LENGTH(SEMANTIC_ERRORS) > 0:
+        RETURN CREATE_ERROR("Semantic Errors Detected", SEMANTIC_ERRORS)
+
+    # Optimize the AST
+    OPTIMIZED_AST = optimize_ast(AST)
+
+    # Generate target code from the optimized AST
+    target_code = generate_code(OPTIMIZED_AST)
+
+    # Profile the generated code for performance analysis
+    PROFILE_GENERATED_CODE(target_code)
+
+    RETURN target_code
+END_FUNCTION
+
