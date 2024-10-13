@@ -273,3 +273,11 @@ For visualization, we can integrate a simple plotting library to visualize the F
 Step-by-Step Guide:
 Step 1: Generate the Fibonacci sequence up to n using the desired method (standard, modulo, etc.).
 Step 2: Use a plotting function to visualize the sequence as a graph.
+
+Sequence Customization: Prime, Odd/Even Fibonacci
+To add custom sequence generation rules, such as generating prime Fibonacci numbers, odd Fibonacci numbers, or even Fibonacci numbers, we will introduce filters.
+
+Step-by-Step Guide:
+Step 1: Create a function to check whether a number is prime.
+Step 2: Define functions that generate Fibonacci numbers filtered by conditions (prime, odd, or even).
+Step 3: Use the existing Fibonacci function and apply the filters.
