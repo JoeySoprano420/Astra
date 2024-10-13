@@ -1,0 +1,9 @@
+# Documentation Generation
+DEFINE FUNCTION generate_documentation():
+    WRITE_FILE "AstraPrime_Documentation.md", "# AstraPrime Language Documentation"
+    APPEND_FILE "AstraPrime_Documentation.md", "## Overview"
+    APPEND_FILE "AstraPrime_Documentation.md", "AstraPrime is designed for advanced game development."
+    APPEND_FILE "AstraPrime_Documentation.md", "## Getting Started"
+    APPEND_FILE "AstraPrime_Documentation.md", "Follow the setup guide to start using AstraPrime."
+    # Further sections can be added based on modules and features
+END_FUNCTION
