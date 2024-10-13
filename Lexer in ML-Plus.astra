@@ -75,3 +75,79 @@ DEFINE FUNCTION DETERMINE_TOKEN_TYPE(char):
     ELSE:
         RETURN CREATE_TOKEN("UNKNOWN", char)
 END_FUNCTION
+
+# Advanced AstraPrime Lexer: Comprehensive Tokenization with Error Reporting
+DEFINE FUNCTION lex_source_code(source_code):
+    TOKEN_LIST = []
+    ERROR_LIST = []
+    
+    # Initialize state variables for string and comment handling
+    is_string = FALSE
+    is_comment = FALSE
+    escape_sequence = FALSE
+    
+    # Tokenize using advanced pinpoint scans
+    FOR i FROM 0 TO LENGTH(source_code) - 1:
+        char = source_code[i]
+        
+        IF is_comment:
+            IF char MATCH "\n":
+                is_comment = FALSE
+            CONTINUE
+        
+        IF is_string:
+            IF escape_sequence:
+                escape_sequence = FALSE
+                CONTINUE
+            IF char MATCH "\\":
+                escape_sequence = TRUE
+                CONTINUE
+            IF char MATCH "\"":
+                is_string = FALSE
+                APPEND TOKEN_LIST, CREATE_TOKEN("STRING", "Completed String")
+                CONTINUE
+            
+        IF char MATCH "\"":
+            is_string = TRUE
+            CONTINUE
+            
+        IF char MATCH "//":
+            is_comment = TRUE
+            CONTINUE
+        
+        IF char MATCH "/*":
+            is_comment = TRUE
+            CONTINUE
+        
+        IF char IS WHITESPACE:
+            CONTINUE
+        ELSE:
+            token = DETERMINE_TOKEN_TYPE(char)
+            IF token IS UNKNOWN:
+                APPEND ERROR_LIST, CREATE_ERROR("Unexpected character: " + char + " at position: " + i)
+            ELSE:
+                APPEND TOKEN_LIST, token
+
+    # Perform advanced noise reduction and sentiment analysis
+    TOKEN_LIST = REMOVE_NOISE(TOKEN_LIST)
+    SENTIMENT_ANALYSIS TOKEN_LIST
+    
+    RETURN (TOKEN_LIST, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION DETERMINE_TOKEN_TYPE(char):
+    IF char MATCH "[A-Za-z_][A-Za-z0-9_]*":
+        RETURN CREATE_TOKEN("IDENTIFIER", char)
+    ELSE IF char MATCH "[0-9]+(\.[0-9]+)?":
+        RETURN CREATE_TOKEN("NUMBER", char)
+    ELSE IF char MATCH "[+-/*=<>!&|]":
+        RETURN CREATE_TOKEN("OPERATOR", char)
+    ELSE IF char MATCH "[(){};,:]":
+        RETURN CREATE_TOKEN("SYMBOL", char)
+    ELSE IF char MATCH "\"":
+        RETURN CREATE_TOKEN("STRING", "Opening String")
+    ELSE IF char MATCH "\n":
+        RETURN CREATE_TOKEN("NEWLINE", "New line detected")
+    ELSE:
+        RETURN CREATE_TOKEN("UNKNOWN", char)
+END_FUNCTION
