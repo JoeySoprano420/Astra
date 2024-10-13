@@ -1,0 +1,8 @@
+# Call Stack Analysis Functionality
+DEFINE FUNCTION GET_CALL_STACK(debugger_state):
+    RETURN debugger_state.CALL_STACK
+
+DEFINE FUNCTION PRINT_CALL_STACK(call_stack):
+    FOR frame IN call_stack:
+        PRINT "Function: " + frame.FUNCTION_NAME + ", Line: " + frame.LINE_NUMBER
+END_FUNCTION
