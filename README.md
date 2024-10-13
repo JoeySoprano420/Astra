@@ -185,3 +185,17 @@ Dynamic Adjustments:
 Functionality for dynamically adjusting sound based on game conditions or user interactions.
 This structured approach provides a c
 
+Standard Fibonacci Function:
+
+A recursive implementation that computes the Fibonacci number based on the defined sequence.
+Time Complexity: O(2^n), which becomes inefficient for larger n.
+Exponential Fibonacci Function:
+
+Uses matrix exponentiation to compute Fibonacci numbers efficiently.
+The transformation matrix for Fibonacci is:
+| 1 1 |
+| 1 0 |
+The matrix_mult function performs matrix multiplication, and the matrix_pow function calculates the power of the matrix using exponentiation by squaring, allowing us to compute the Fibonacci number in O(log n) time.
+Example Function:
+
+fibonacci_example() demonstrates how to use both functions to compute Fibonacci numbers for a given value of n.
