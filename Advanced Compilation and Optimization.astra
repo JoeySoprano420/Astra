@@ -454,3 +454,35 @@ END_FUNCTION
 DEFINE FUNCTION inline_function_calls(ast):
     # Implementation for inlining function calls
 END_FUNCTION
+
+# Modular Compiler Structure with Intermediate Representation
+DEFINE FUNCTION compile_astraprime(source_code):
+    (TOKEN_LIST, LEXICAL_ERRORS) = lex_source_code(source_code)
+
+    IF LENGTH(LEXICAL_ERRORS) > 0:
+        LOG_ERRORS(LEXICAL_ERRORS)
+        RETURN CREATE_ERROR("Lexical Errors Detected", LEXICAL_ERRORS)
+
+    (AST, PARSING_ERRORS) = parse_tokens(TOKEN_LIST)
+    IF LENGTH(PARSING_ERRORS) > 0:
+        LOG_ERRORS(PARSING_ERRORS)
+        RETURN CREATE_ERROR("Parsing Errors Detected", PARSING_ERRORS)
+
+    SEMANTIC_ERRORS = perform_semantic_analysis(AST)
+    IF LENGTH(SEMANTIC_ERRORS) > 0:
+        LOG_ERRORS(SEMANTIC_ERRORS)
+        RETURN CREATE_ERROR("Semantic Errors Detected", SEMANTIC_ERRORS)
+
+    IR = convert_to_intermediate_representation(AST)
+    OPTIMIZED_IR = run_optimization_passes(IR)
+
+    target_code = generate_code(OPTIMIZED_IR)
+    PROFILE_GENERATED_CODE(target_code)
+
+    RETURN target_code
+
+# Intermediate Representation Conversion
+DEFINE FUNCTION convert_to_intermediate_representation(ast):
+    # Convert AST to an intermediate representation for further processing
+    RETURN ir_representation
+END_FUNCTION
