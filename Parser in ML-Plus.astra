@@ -24,3 +24,28 @@ DEFINE FUNCTION FIX_LINE(token):
     CONTEXTUAL_ANALYSIS token
     REBUILD_TOKEN token UNTIL CORRECT
 END_FUNCTION
+
+# Enhanced AstraPrime Parser: Check-and-Go Parser with Error Reporting
+DEFINE FUNCTION parse_tokens(token_list):
+    PARSE_TREE = INIT_TREE()
+    ERROR_LIST = []
+
+    FOR EACH token IN token_list:
+        IF token IS VALID:
+            PARSE_NODE = CONVERT_TOKEN_TO_NODE(token)
+            APPEND PARSE_TREE, PARSE_NODE
+        ELSE:
+            ERROR_MESSAGE = FIX_LINE(token)
+            APPEND ERROR_LIST, ERROR_MESSAGE
+            APPEND PARSE_TREE, RECONSTRUCTED_NODE(token)
+    
+    RETURN (PARSE_TREE, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION FIX_LINE(token):
+    # Reconstruct and remodel code based on surrounding context
+    CONTEXTUAL_ANALYSIS token
+    REBUILD_TOKEN token UNTIL CORRECT
+    RETURN "Error fixed for token: " + token.value
+END_FUNCTION
+
