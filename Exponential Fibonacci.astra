@@ -314,3 +314,26 @@ DEFINE FUNCTION run_multithreaded_fibonacci():
     result = fibonacci_multithreaded(n)
     PRINT "Multithreaded Fibonacci F(", n, ") = ", result
 END_FUNCTION
+
+# Visualization of Fibonacci Sequence
+
+# Function to generate a list of Fibonacci numbers
+DEFINE FUNCTION generate_fibonacci_sequence(n):
+    sequence = []
+    FOR i FROM 0 TO n:
+        APPEND sequence, fibonacci_standard(i)
+    RETURN sequence
+
+# Plot Fibonacci Sequence
+DEFINE FUNCTION plot_fibonacci_sequence(n):
+    sequence = generate_fibonacci_sequence(n)
+    
+    # Hypothetical plotting function
+    PLOT(sequence, "Fibonacci Sequence", x_label="n", y_label="Fibonacci(n)")
+    PRINT "Fibonacci sequence up to F(", n, ") plotted successfully."
+    
+# Example of running Fibonacci visualization
+DEFINE FUNCTION visualize_fibonacci():
+    n = 15  # Set the value of n
+    plot_fibonacci_sequence(n)
+END_FUNCTION
