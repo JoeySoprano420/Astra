@@ -18,3 +18,29 @@ WHILE GAME_IS_RUNNING:
     SPATIAL_AUDIO_SETTINGS(PLAYER_POSITION, PLAYER_ORIENTATION)
 
 FADE_OUT(background_music, 5)
+
+# Example usage of the Enhanced Audio Library
+
+INIT_AUDIO()
+background_music = SET_BACKGROUND_MUSIC("path/to/background_music.mp3")
+collision_sound = LOAD_SOUND("path/to/collision_sound.wav")
+pickup_sound = LOAD_SOUND("path/to/pickup_sound.wav")
+
+# Adjusting sound effects
+APPLY_EQUALIZATION(collision_sound, 1000, 3)  # Boost 1000 Hz by 3dB
+APPLY_DISTORTION(pickup_sound, 0.5)            # Moderate distortion
+
+# Simulate a game loop
+WHILE GAME_IS_RUNNING:
+    # Game logic here...
+    
+    IF PLAYER_COLLIDES:
+        TRIGGER_AUDIO_EVENT("COLLISION", collision_sound)
+
+    IF PLAYER_PICKUP_ITEM:
+        TRIGGER_AUDIO_EVENT("PICKUP", pickup_sound)
+
+    # Update spatial audio
+    SPATIAL_AUDIO_SETTINGS(PLAYER_POSITION, PLAYER_ORIENTATION)
+
+FADE_OUT(background_music, 5)
