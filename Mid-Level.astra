@@ -1,0 +1,110 @@
+MODULE FileUtils:
+    DEFINE FUNCTION read_file(filepath):
+        TRY:
+            file = OPEN(filepath)
+            RETURN file.READ()
+        CATCH Error e:
+            PRINT "Error reading file:", e.message
+    END_FUNCTION
+END_MODULE
+
+# Usage in main code:
+INCLUDE_MODULE FileUtils
+
+data = FileUtils.read_file("data.txt")
+PRINT data
+
+TEMPLATE_MODULE Stack<Type>:
+    DEFINE CLASS Stack:
+        DEFINE VAR stack_data = []
+        
+        DEFINE FUNCTION push(item: Type):
+            stack_data.APPEND(item)
+        
+        DEFINE FUNCTION pop() -> Type:
+            RETURN stack_data.POP()
+    END_CLASS
+END_TEMPLATE_MODULE
+
+# Usage:
+INCLUDE_TEMPLATE_MODULE Stack<int>
+
+DEFINE CLASS Graph:
+    DEFINE VAR vertices = []
+    DEFINE VAR edges = {}
+    
+    DEFINE FUNCTION add_vertex(v):
+        vertices.APPEND(v)
+    
+    DEFINE FUNCTION add_edge(v1, v2):
+        IF v1 NOT IN edges THEN edges[v1] = []
+        edges[v1].APPEND(v2)
+    
+    DEFINE FUNCTION depth_first_search(start_vertex):
+        visited = {}
+        dfs_recursive(start_vertex, visited)
+    
+    PRIVATE FUNCTION dfs_recursive(v, visited):
+        visited[v] = TRUE
+        PRINT "Visited:", v
+        FOR neighbor IN edges[v]:
+            IF NOT visited[neighbor]:
+                dfs_recursive(neighbor, visited)
+END_CLASS
+
+# Graph usage:
+graph = NEW Graph()
+graph.add_vertex("A")
+graph.add_vertex("B")
+graph.add_edge("A", "B")
+graph.depth_first_search("A")
+
+# Imperative style
+FOR i = 0 TO 10:
+    PRINT i
+
+# Declarative style (automatically optimized)
+nums = RANGE(0, 10)
+nums.EACH(PRINT)
+
+# Auto-vectorization:
+arr = [1, 2, 3, 4, 5]
+arr *= 2  # Multiplies each element by 2
+PRINT arr  # Output: [2, 4, 6, 8, 10]
+
+MACRO LOG_IF_DEBUGGING(message):
+    IF DEBUG:
+        PRINT message
+END_MACRO
+
+# Usage:
+LOG_IF_DEBUGGING("Debug mode is on.")
+
+DEFINE FUNCTION open_file(filepath):
+    WITH file = AUTO_OPEN(filepath):
+        RETURN file.READ()
+    END_WITH  # Ensures resource cleanup (auto-close)
+END_FUNCTION
+
+BREAKPOINT("Entering function")
+# Function body
+
+PROFILE_START()
+# Code to be profiled
+PROFILE_END()
+PRINT_PROFILE_RESULTS()
+
+DEFINE TEST_CASE test_fibonacci:
+    ASSERT fibonacci(10) == 55
+    PRINT "Test passed!"
+END_TEST_CASE
+
+DEFINE FUNCTION delayed_action():
+    WAIT(5)  # Wait for 5 seconds
+    PRINT "Executed after delay"
+END_FUNCTION
+
+# Run multi-threaded code with easy syntax
+THREADS = CREATE_THREAD_POOL(4)
+THREADS.RUN(delayed_action)
+
