@@ -12,3 +12,23 @@ DEFINE FUNCTION generate_code(ast):
     
     RETURN target_code
 END_FUNCTION
+
+# Generate target code from the optimized AST
+DEFINE FUNCTION generate_code(ast):
+    target_code = ""
+
+    FOR node IN ast:
+        IF node.TYPE IS "FUNCTION":
+            target_code += GENERATE_FUNCTION_CODE(node)
+        ELSE IF node.TYPE IS "VARIABLE":
+            target_code += GENERATE_VARIABLE_CODE(node)
+        ELSE IF node.TYPE IS "EXPRESSION":
+            target_code += GENERATE_EXPRESSION_CODE(node)
+        ELSE:
+            target_code += COMMENT_ON_NODE(node)
+
+    RETURN target_code
+
+DEFINE FUNCTION COMMENT_ON_NODE(node):
+    RETURN "// " + node.DESCRIPTION + "\n"
+END_FUNCTION
