@@ -40,3 +40,22 @@ DEFINE LIBRARY GRAPHICS_RENDERING:
     END_FUNCTION
 
 END_LIBRARY
+
+# Advanced Graphics Rendering Framework
+DEFINE FUNCTION initialize_graphics_system():
+    LOAD_GRAPHICS_LIBRARIES()
+    SET_MAX_GRAPHIC_LAYERS(10)
+    PRINT "Graphics system initialized."
+
+DEFINE FUNCTION RENDER_SPRITE(sprite):
+    # Render a sprite with defined transformations
+    IF IS_SPRITE_LOADED(sprite):
+        DRAW_SPRITE(sprite)
+    ELSE:
+        PRINT "Sprite not loaded."
+
+DEFINE FUNCTION SET_VIEWPORT(x, y, width, height):
+    # Set the viewport for rendering
+    CONFIGURE_VIEWPORT(x, y, width, height)
+    PRINT "Viewport set to: " + x + ", " + y + ", " + width + ", " + height
+END_FUNCTION
