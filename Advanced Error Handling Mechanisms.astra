@@ -94,3 +94,37 @@ DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
         APPEND suggestions, "Check for null references or illegal operations."
     RETURN suggestions
 END_FUNCTION
+
+# Contextual Error Handling during Compilation with Severity Levels
+DEFINE FUNCTION handle_error(error):
+    PRINT "Error encountered: " + error.ERROR_MESSAGE
+    PRINT "Details: " + error.ERROR_DETAILS
+    PRINT "Timestamp: " + error.TIMESTAMP
+    PRINT "Stack Trace: " + JOIN(error.STACK_TRACE, "\n")
+    PRINT "Suggestions: " + JOIN(error.SUGGESTIONS, ", ")
+
+    # Determine the severity of the error
+    severity = DETERMINE_SEVERITY(error)
+
+    # Terminate or continue based on the severity of the error
+    IF severity IS "FATAL":
+        PRINT "Fatal error. Terminating compilation."
+        EXIT_COMPILATION()
+    ELSE IF severity IS "WARNING":
+        PRINT "Warning: Compilation can continue but review the error."
+        CONTINUE_COMPILATION()
+    ELSE:
+        PRINT "Info: Non-fatal error. Review the logs."
+        CONTINUE_COMPILATION()
+END_FUNCTION
+
+DEFINE FUNCTION DETERMINE_SEVERITY(error):
+    IF error.ERROR_MESSAGE MATCH "Lexical Errors Detected":
+        RETURN "WARNING"
+    ELSE IF error.ERROR_MESSAGE MATCH "Parsing Error":
+        RETURN "FATAL"
+    ELSE IF error.ERROR_MESSAGE MATCH "Runtime Error":
+        RETURN "FATAL"
+    ELSE:
+        RETURN "INFO"
+END_FUNCTION
