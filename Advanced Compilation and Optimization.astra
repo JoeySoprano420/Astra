@@ -403,3 +403,54 @@ END_FUNCTION
 DEFINE FUNCTION generate_code(ast):
     # (Implementation of code generation)
 END_FUNCTION
+
+# Comprehensive Compiler Structure with Multiple Optimization Passes
+DEFINE FUNCTION compile_astraprime(source_code):
+    (TOKEN_LIST, LEXICAL_ERRORS) = lex_source_code(source_code)
+
+    # Log lexical errors
+    IF LENGTH(LEXICAL_ERRORS) > 0:
+        LOG_ERRORS(LEXICAL_ERRORS)
+        RETURN CREATE_ERROR("Lexical Errors Detected", LEXICAL_ERRORS)
+
+    (AST, PARSING_ERRORS) = parse_tokens(TOKEN_LIST)
+    IF LENGTH(PARSING_ERRORS) > 0:
+        LOG_ERRORS(PARSING_ERRORS)
+        RETURN CREATE_ERROR("Parsing Errors Detected", PARSING_ERRORS)
+
+    SEMANTIC_ERRORS = perform_semantic_analysis(AST)
+    IF LENGTH(SEMANTIC_ERRORS) > 0:
+        LOG_ERRORS(SEMANTIC_ERRORS)
+        RETURN CREATE_ERROR("Semantic Errors Detected", SEMANTIC_ERRORS)
+
+    # Run multiple optimization passes
+    OPTIMIZED_AST = run_optimization_passes(AST)
+
+    target_code = generate_code(OPTIMIZED_AST)
+    PROFILE_GENERATED_CODE(target_code)
+
+    RETURN target_code
+
+# Optimization Passes
+DEFINE FUNCTION run_optimization_passes(ast):
+    ast = constant_folding(ast)
+    ast = dead_code_elimination(ast)
+    ast = loop_unrolling(ast)
+    ast = inline_function_calls(ast)
+    RETURN ast
+
+DEFINE FUNCTION constant_folding(ast):
+    # Implementation for constant folding
+END_FUNCTION
+
+DEFINE FUNCTION dead_code_elimination(ast):
+    # Implementation for dead code elimination
+END_FUNCTION
+
+DEFINE FUNCTION loop_unrolling(ast):
+    # Implementation for loop unrolling
+END_FUNCTION
+
+DEFINE FUNCTION inline_function_calls(ast):
+    # Implementation for inlining function calls
+END_FUNCTION
