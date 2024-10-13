@@ -1,0 +1,27 @@
+# Perform semantic analysis on the AST
+DEFINE FUNCTION perform_semantic_analysis(ast):
+    errors = []
+
+    # Check for type mismatches
+    FOR node IN ast:
+        IF node.TYPE IS "FUNCTION":
+            errors += CHECK_FUNCTION(node)
+        ELSE IF node.TYPE IS "VARIABLE":
+            errors += CHECK_VARIABLE(node)
+
+    RETURN errors
+
+DEFINE FUNCTION CHECK_FUNCTION(node):
+    errors = []
+    # Ensure function parameters are properly defined
+    IF LENGTH(node.PARAMETERS) != node.PARAMETER_COUNT:
+        APPEND errors, CREATE_ERROR("Function parameter count mismatch for " + node.NAME)
+    RETURN errors
+
+DEFINE FUNCTION CHECK_VARIABLE(node):
+    errors = []
+    # Check variable usage
+    IF NOT IS_VARIABLE_DEFINED(node.NAME):
+        APPEND errors, CREATE_ERROR("Undefined variable: " + node.NAME)
+    RETURN errors
+END_FUNCTION
