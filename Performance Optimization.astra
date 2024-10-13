@@ -56,3 +56,18 @@ DEFINE FUNCTION profile_function(func, *args):
 DEFINE FUNCTION performance_example():
     profile_function(math_utils_factorial, 10)  # Measure the time taken to compute factorial of 10
 END_FUNCTION
+
+INCLUDE_LIBRARY "profiling"
+DEFINE FUNCTION profile_startup():
+    PROFILE_CODE("optimize_startup")
+    PRINT "Startup profiling complete."
+END_FUNCTION
+
+INCLUDE_LIBRARY "async_processing"
+
+DEFINE FUNCTION async_non_critical_tasks():
+    # Run non-essential tasks asynchronously
+    RUN_ASYNC(log_system_stats())
+    RUN_ASYNC(check_for_updates())
+    PRINT "Non-critical tasks deferred to post-startup."
+END_FUNCTION
