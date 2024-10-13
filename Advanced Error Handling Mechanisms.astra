@@ -180,3 +180,17 @@ DEFINE FUNCTION CREATE_ERROR(message, details = [], severity = "ERROR"):
         STACK_TRACE = GET_STACK_TRACE(),
         SEVERITY = severity
     }
+
+# Generate contextual suggestions for error resolution
+DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
+    suggestions = []
+    IF message MATCH "Lexical Errors Detected":
+        APPEND suggestions, "Check for typos or unsupported characters."
+    ELSE IF message MATCH "Parsing Errors Detected":
+        APPEND suggestions, "Review syntax; ensure constructs are properly closed."
+    ELSE IF message MATCH "Semantic Errors Detected":
+        APPEND suggestions, "Check variable and function declarations for correctness."
+    ELSE IF message MATCH "Runtime Error":
+        APPEND suggestions, "Investigate variable states and ensure all resources are initialized."
+    RETURN suggestions
+END_FUNCTION
