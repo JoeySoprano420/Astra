@@ -1,0 +1,81 @@
+name: Virtual Browser Compilation and Execution
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # Setup Node.js to build HTML-C (Frontend)
+    - name: Setup Node.js ${{ matrix.node-version }} for Frontend (HTML-C)
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Install and Build Frontend (HTML-C)
+    - name: Build Frontend (HTML-C)
+      run: |
+        cd HTML-C
+        npm install
+        grunt
+
+    # Setup backend (MDRI-FILES)
+    - name: Setup Node.js ${{ matrix.node-version }} for Backend (MDRI-FILES)
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Install and Run Backend (MDRI-FILES)
+    - name: Install Backend Dependencies (MDRI-FILES)
+      run: |
+        cd MDRI-FILES
+        npm install
+        npm test # Assuming there are tests for the backend API
+        # If you have API starting scripts, you can start them here as well
+        # e.g., npm start or node server.js
+
+    # Install and Compile Astra (AOT Compilation)
+    - name: Compile with Astra (AOT)
+      run: |
+        cd ../Astra
+        npm install
+        npm run compile # Assuming there’s a compile script in package.json
+
+    # Setup ML-Plus for JIT Compilation
+    - name: Setup Node.js ${{ matrix.node-version }} for JIT (ML-Plus)
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Install and Run JIT Compilation (ML-Plus)
+    - name: Install and JIT Compile with ML-Plus
+      run: |
+        cd ../ML-Plus
+        npm install
+        npm run jit # Assuming you have a script for JIT compilation
+
+    # Compile to Assembly Language (EAL-English-Assembly-Language)
+    - name: Compile to Assembly (EAL)
+      run: |
+        cd ../EAL-English-Assembly-Language-
+        npm install
+        npm run compile-assembly # Assuming there's a script for compiling to assembly language
+
+    # Test if all components work together
+    - name: Run Integration Tests
+      run: |
+        cd ../tests
+        npm install
+        npm run test:integration # Assuming there are integration tests that ensure all components work together
+
