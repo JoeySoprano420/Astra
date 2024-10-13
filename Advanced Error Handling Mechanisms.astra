@@ -65,3 +65,32 @@ DEFINE FUNCTION ERROR_IS_FATAL(error):
     RETURN error.ERROR_MESSAGE MATCH "Fatal Error"
 END_FUNCTION
 
+# Comprehensive Error Reporting Mechanism
+DEFINE FUNCTION CREATE_ERROR(message, details = []):
+    RETURN {
+        ERROR_MESSAGE = message,
+        TIMESTAMP = CURRENT_TIMESTAMP(),
+        ERROR_DETAILS = details,
+        SUGGESTIONS = GENERATE_SUGGESTIONS(message),
+        STACK_TRACE = GET_STACK_TRACE()
+    }
+
+DEFINE FUNCTION GET_STACK_TRACE():
+    # Collect a stack trace for debugging
+    stack_trace = []
+    FOR frame IN CALL_STACK:
+        APPEND stack_trace, frame
+    RETURN stack_trace
+
+DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
+    suggestions = []
+    IF message MATCH "Lexical Errors Detected":
+        APPEND suggestions, "Check for typos or unsupported characters."
+    ELSE IF message MATCH "Parsing Error":
+        APPEND suggestions, "Review syntax; ensure all constructs are properly formed."
+    ELSE IF message MATCH "Unexpected token":
+        APPEND suggestions, "Consider if the token is in the correct context."
+    ELSE IF message MATCH "Runtime Error":
+        APPEND suggestions, "Check for null references or illegal operations."
+    RETURN suggestions
+END_FUNCTION
