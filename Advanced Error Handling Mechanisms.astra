@@ -373,3 +373,71 @@ DEFINE FUNCTION error_logging_example():
         PRINT "Error logged: ", error.error_message
 END_FUNCTION
 
+# Base Error Class
+DEFINE CLASS BaseError:
+    ATTRIBUTES:
+        error_message
+        error_code
+        timestamp
+
+    DEFINE CONSTRUCTOR(message, code):
+        self.error_message = message
+        self.error_code = code
+        self.timestamp = CURRENT_TIMESTAMP()
+
+    DEFINE FUNCTION log_error():
+        WRITE_FILE "error_log.txt", self.timestamp + " - " + self.error_message + " Code: " + self.error_code + "\n", APPEND
+
+# Expanded Error Hierarchy
+DEFINE CLASS ValidationError EXTENDS BaseError:
+    DEFINE CONSTRUCTOR(message):
+        SUPER(message, 400)
+
+DEFINE CLASS NotFoundError EXTENDS BaseError:
+    DEFINE CONSTRUCTOR(message):
+        SUPER(message, 404)
+
+DEFINE CLASS PermissionError EXTENDS BaseError:
+    DEFINE CONSTRUCTOR(message):
+        SUPER(message, 403)
+
+DEFINE CLASS DatabaseError EXTENDS BaseError:
+    DEFINE CONSTRUCTOR(message):
+        SUPER(message, 500)
+
+# Example of Handling Multiple Errors
+DEFINE FUNCTION handle_multiple_errors():
+    TRY:
+        THROW ValidationError("Invalid input provided")
+    CATCH (error AS ValidationError):
+        error.log_error()
+        PRINT "Validation Error: ", error.error_message
+
+    TRY:
+        THROW NotFoundError("Requested resource not found")
+    CATCH (error AS NotFoundError):
+        error.log_error()
+        PRINT "Not Found Error: ", error.error_message
+END_FUNCTION
+
+# Contextual Error Handling
+DEFINE CLASS ContextualError EXTENDS BaseError:
+    ATTRIBUTES:
+        context_data
+
+    DEFINE CONSTRUCTOR(message, code, context):
+        SUPER(message, code)
+        self.context_data = context
+
+    DEFINE FUNCTION log_error():
+        WRITE_FILE "contextual_error_log.txt", self.timestamp + " - " + self.error_message + " Code: " + self.error_code + " Context: " + self.context_data + "\n", APPEND
+
+# Example of Contextual Error
+DEFINE FUNCTION context_error_example():
+    TRY:
+        THROW ContextualError("Invalid operation on database", 400, "Database query: SELECT * FROM users")
+    CATCH (error AS ContextualError):
+        error.log_error()
+        PRINT "Contextual Error: ", error.error_message, " with context: ", error.context_data
+END_FUNCTION
+
