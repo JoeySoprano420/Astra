@@ -239,3 +239,43 @@ DEFINE FUNCTION PROCESS_OPERATOR(token, AST):
 DEFINE FUNCTION PROCESS_SYMBOL(token, AST):
     # Handle special symbols: parentheses, brackets, etc.
     APPEND AST.NODES, CREATE_NODE("Symbol", token.VALUE)
+
+# Advanced AstraPrime Parser: Syntax Analysis with Error Handling
+DEFINE FUNCTION parse_tokens(token_list):
+    AST = CREATE_AST()  # Abstract Syntax Tree
+    ERROR_LIST = []
+
+    current_position = 0
+
+    WHILE current_position < LENGTH(token_list):
+        token = token_list[current_position]
+        
+        IF token.type IS "IDENTIFIER":
+            # Parse an expression or declaration
+            result = PARSE_EXPRESSION(token_list, current_position)
+            IF result.error:
+                APPEND ERROR_LIST, result.error
+            ELSE:
+                APPEND AST, result.ast
+                current_position = result.next_position
+        ELSE:
+            APPEND ERROR_LIST, CREATE_ERROR("Unexpected token: " + token.value + " at position: " + current_position)
+            current_position += 1
+
+    RETURN (AST, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION PARSE_EXPRESSION(token_list, position):
+    # A simple implementation for parsing expressions
+    IF position >= LENGTH(token_list):
+        RETURN (CREATE_ERROR("End of input reached unexpectedly."), position)
+
+    token = token_list[position]
+
+    IF token.type IS "IDENTIFIER":
+        # Process identifiers (function calls, variable access)
+        position += 1
+        RETURN (CREATE_AST_NODE("IDENTIFIER", token.value), position)
+
+    RETURN (CREATE_ERROR("Expected identifier at position: " + position), position)
+END_FUNCTION
