@@ -134,3 +134,58 @@ DEFINE FUNCTION HANDLE_SYMBOL(node, MDRI_CODE):
         PRINT "Error: Unknown symbol " + node.value
 END_FUNCTION
 
+# Upgraded AstraPrime Compiler: Direct Compilation to MDRI CIL
+DEFINE FUNCTION compile_to_mdril(parse_tree):
+    MDRI_CODE = INIT_CODE_BLOCK()
+    ERROR_LIST = []
+
+    FOR EACH node IN parse_tree:
+        RESULT = COMPILE_NODE_TO_MDRI(node, MDRI_CODE)
+        IF RESULT IS ERROR:
+            APPEND ERROR_LIST, RESULT
+    
+    # Output compiled MDRI CIL
+    WRITE_FILE "output.mdril", MDRI_CODE
+    IF LENGTH(ERROR_LIST) > 0:
+        PRINT "Compilation completed with errors:"
+        FOR EACH error IN ERROR_LIST:
+            PRINT error
+    ELSE:
+        PRINT "Compilation to MDRI Complete."
+    RETURN MDRI_CODE
+END_FUNCTION
+
+DEFINE FUNCTION COMPILE_NODE_TO_MDRI(node, MDRI_CODE):
+    CASE node.type OF:
+        "IDENTIFIER":
+            APPEND MDRI_CODE, "PUSH " + node.value
+        "NUMBER":
+            APPEND MDRI_CODE, "LOAD " + node.value
+        "STRING_LITERAL":
+            APPEND MDRI_CODE, "LOAD_STRING " + node.value
+        "OPERATOR":
+            APPEND MDRI_CODE, "OPER " + node.value
+        "FUNCTION_CALL":
+            APPEND MDRI_CODE, "CALL " + node.value
+        "SYMBOL":
+            HANDLE_SYMBOL(node, MDRI_CODE)
+        DEFAULT:
+            RETURN "Error: Unknown node type in parsing: " + node.type
+    END_CASE
+END_FUNCTION
+
+DEFINE FUNCTION HANDLE_SYMBOL(node, MDRI_CODE):
+    # Handling for specific symbols like brackets, semicolons, etc.
+    IF node.value MATCH "(":
+        APPEND MDRI_CODE, "CALL_START"
+    ELSE IF node.value MATCH ")":
+        APPEND MDRI_CODE, "CALL_END"
+    ELSE IF node.value MATCH "{":
+        APPEND MDRI_CODE, "BLOCK_START"
+    ELSE IF node.value MATCH "}":
+        APPEND MDRI_CODE, "BLOCK_END"
+    ELSE IF node.value MATCH ";":
+        APPEND MDRI_CODE, "STATEMENT_END"
+    ELSE:
+        RETURN "Error: Unhandled symbol in node: " + node.value
+END_FUNCTION
