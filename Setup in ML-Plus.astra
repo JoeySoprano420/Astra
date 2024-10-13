@@ -12,20 +12,21 @@ DEFINE FUNCTION setup_astraprime:
     # Initialize project configuration with advanced settings
     WRITE_FILE "AstraPrime.config" {
         PROJECT_NAME = "AstraPrime"
-        LANGUAGE_VERSION = "1.0"
+        LANGUAGE_VERSION = 1.0.0
         TARGETS = ["MDRI", "EAL", "BINARY"]
         DEPENDENCIES = ["AudioLib", "GraphicsLib", "MathLib", "PhysicsLib", "NetworkLib"]
         OPTIMIZATION_LEVEL = "high"
         SUPPORTED_PLATFORMS = ["Windows", "Linux", "macOS", "Android", "iOS"]
         DEBUG_MODE = TRUE
         BUILD_TIMESTAMP = CURRENT_TIMESTAMP()
-        AUTHOR = Joey Soprano
+        AUTHOR = Joey Soprano (Draco 420)
         LICENSE = Modified QSRLC v1.0.1
         DESCRIPTION = "AstraPrime is an advanced programming language for game development."
         SUPPORTED_AUDIO_FORMATS = ["MP3", "WAV", "OGG"]
         SUPPORTED_GRAPHICS_FORMATS = ["PNG", "JPG", "BMP"]
         MAX_AUDIO_CHANNELS = 16
         MAX_GRAPHIC_LAYERS = 10
+        MAX_OPEN_FILES = 256
     }
 
     # Set up initial libraries with version checks
