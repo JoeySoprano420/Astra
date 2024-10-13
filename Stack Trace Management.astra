@@ -1,0 +1,11 @@
+# Enhanced Stack Trace Management
+DEFINE FUNCTION GET_STACK_TRACE():
+    stack_trace = []
+    FOR frame IN CALL_STACK:
+        APPEND stack_trace, {
+            FUNCTION_NAME = frame.FUNCTION_NAME,
+            LINE_NUMBER = frame.LINE_NUMBER,
+            PARAMETERS = frame.PARAMETERS
+        }
+    RETURN stack_trace
+END_FUNCTION
