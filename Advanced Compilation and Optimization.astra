@@ -351,3 +351,30 @@ END_FUNCTION
 DEFINE FUNCTION IS_CONSTANT(value):
     RETURN value MATCH "^[0-9]+$" OR value MATCH "^\".*\"$"
 END_FUNCTION
+
+# Enhanced Modular Compiler Structure
+DEFINE FUNCTION compile_astraprime(source_code):
+    (TOKEN_LIST, LEXICAL_ERRORS) = lex_source_code(source_code)
+
+    # Log and handle lexical errors
+    IF LENGTH(LEXICAL_ERRORS) > 0:
+        LOG_ERRORS(LEXICAL_ERRORS)
+        RETURN CREATE_ERROR("Lexical Errors Detected", LEXICAL_ERRORS)
+
+    (AST, PARSING_ERRORS) = parse_tokens(TOKEN_LIST)
+    IF LENGTH(PARSING_ERRORS) > 0:
+        LOG_ERRORS(PARSING_ERRORS)
+        RETURN CREATE_ERROR("Parsing Errors Detected", PARSING_ERRORS)
+
+    SEMANTIC_ERRORS = perform_semantic_analysis(AST)
+    IF LENGTH(SEMANTIC_ERRORS) > 0:
+        LOG_ERRORS(SEMANTIC_ERRORS)
+        RETURN CREATE_ERROR("Semantic Errors Detected", SEMANTIC_ERRORS)
+
+    OPTIMIZED_AST = optimize_ast(AST)
+
+    target_code = generate_code(OPTIMIZED_AST)
+    PROFILE_GENERATED_CODE(target_code)
+
+    RETURN target_code
+END_FUNCTION
