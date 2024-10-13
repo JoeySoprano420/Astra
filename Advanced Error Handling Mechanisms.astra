@@ -194,3 +194,29 @@ DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
         APPEND suggestions, "Investigate variable states and ensure all resources are initialized."
     RETURN suggestions
 END_FUNCTION
+
+# Advanced Error Reporting with Severity Levels
+DEFINE FUNCTION LOG_ERRORS(error_list):
+    FOR error IN error_list:
+        LOG_ERROR(error)
+
+DEFINE FUNCTION LOG_ERROR(error):
+    WRITE_TO_FILE "error_log.txt",
+        "Timestamp: " + CURRENT_TIMESTAMP() + 
+        ", Severity: " + error.SEVERITY + 
+        ", Message: " + error.ERROR_MESSAGE + 
+        ", Location: " + error.LOCATION + 
+        ", Suggestions: " + error.SUGGESTIONS + 
+        ", Call Stack: " + error.STACK_TRACE
+END_FUNCTION
+
+DEFINE FUNCTION CREATE_ERROR(message, details = [], severity = "ERROR", location = "Unknown"):
+    RETURN {
+        ERROR_MESSAGE = message,
+        TIMESTAMP = CURRENT_TIMESTAMP(),
+        ERROR_DETAILS = details,
+        SUGGESTIONS = GENERATE_SUGGESTIONS(message),
+        LOCATION = location,
+        STACK_TRACE = GET_STACK_TRACE(),
+        SEVERITY = severity
+    }
