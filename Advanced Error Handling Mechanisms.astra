@@ -259,3 +259,19 @@ DEFINE FUNCTION LOG_ERROR(error):
         ", Suggestions: " + error.SUGGESTIONS +
         ", Call Stack: " + error.STACK_TRACE
 END_FUNCTION
+
+# Contextual Suggestions for Error Resolution
+DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
+    suggestions = []
+    IF message MATCH "Unexpected character":
+        APPEND suggestions, "Check for unsupported characters or typos."
+    ELSE IF message MATCH "Expected 'end'":
+        APPEND suggestions, "Ensure all control structures are properly closed."
+    ELSE IF message MATCH "Variable not defined":
+        APPEND suggestions, "Declare the variable before use."
+    ELSE IF message MATCH "Type mismatch":
+        APPEND suggestions, "Ensure variable types are compatible for operations."
+    ELSE:
+        APPEND suggestions, "Refer to documentation for further assistance."
+    RETURN suggestions
+END_FUNCTION
