@@ -46,3 +46,22 @@ DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
         APPEND suggestions, "Consider if the token is in the correct context."
     RETURN suggestions
 END_FUNCTION
+
+# Contextual Error Handling during Compilation
+DEFINE FUNCTION handle_error(error):
+    PRINT "Error encountered: " + error.ERROR_MESSAGE
+    PRINT "Details: " + error.ERROR_DETAILS
+    PRINT "Timestamp: " + error.TIMESTAMP
+    PRINT "Suggestions: " + JOIN(error.SUGGESTIONS, ", ")
+    
+    # Terminate or continue based on the severity of the error
+    IF ERROR_IS_FATAL(error):
+        EXIT_COMPILATION()
+    ELSE:
+        CONTINUE_COMPILATION()
+END_FUNCTION
+
+DEFINE FUNCTION ERROR_IS_FATAL(error):
+    RETURN error.ERROR_MESSAGE MATCH "Fatal Error"
+END_FUNCTION
+
