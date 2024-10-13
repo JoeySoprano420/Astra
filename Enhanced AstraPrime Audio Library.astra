@@ -1,0 +1,128 @@
+# Enhanced AstraPrime Audio Library
+
+DEFINE LIBRARY AUDIO:
+
+    DEFINE FUNCTION INIT_AUDIO():
+        # Initialize the audio system
+        SETUP_AUDIO_ENGINE()
+        PRINT "Audio system initialized."
+    END_FUNCTION
+
+    DEFINE FUNCTION LOAD_SOUND(file_path):
+        # Load a sound file into memory supporting various formats
+        IF CHECK_AUDIO_FORMAT(file_path) IS VALID:
+            sound = LOAD_SOUND_FILE(file_path)
+            PRINT "Sound loaded from: " + file_path
+            RETURN sound
+        ELSE:
+            PRINT "Invalid audio format for file: " + file_path
+            RETURN NULL
+    END_FUNCTION
+
+    DEFINE FUNCTION CHECK_AUDIO_FORMAT(file_path):
+        # Check if the audio format is supported
+        supported_formats = ["mp3", "wav", "ogg"]
+        extension = GET_FILE_EXTENSION(file_path)
+        IF extension IN supported_formats:
+            RETURN TRUE
+        ELSE:
+            RETURN FALSE
+    END_FUNCTION
+
+    DEFINE FUNCTION PLAY_SOUND(sound):
+        # Play a loaded sound
+        PLAY(sound)
+        PRINT "Playing sound."
+    END_FUNCTION
+
+    DEFINE FUNCTION STOP_SOUND(sound):
+        # Stop a currently playing sound
+        STOP(sound)
+        PRINT "Stopped sound."
+    END_FUNCTION
+
+    DEFINE FUNCTION SET_VOLUME(sound, volume):
+        # Set the volume level for a sound
+        sound.VOLUME = volume
+        PRINT "Volume set to: " + volume
+    END_FUNCTION
+
+    DEFINE FUNCTION LOOP_SOUND(sound):
+        # Loop a sound indefinitely
+        LOOP(sound)
+        PRINT "Sound set to loop."
+    END_FUNCTION
+
+    DEFINE FUNCTION SET_BACKGROUND_MUSIC(file_path):
+        # Load and play background music
+        music = LOAD_SOUND(file_path)
+        IF music IS NOT NULL:
+            PLAY(music)
+            PRINT "Background music started from: " + file_path
+    END_FUNCTION
+
+    DEFINE FUNCTION FADE_OUT(sound, duration):
+        # Fade out a sound over a specified duration
+        FADE(sound, duration)
+        PRINT "Fading out sound over: " + duration + " seconds."
+    END_FUNCTION
+
+    DEFINE FUNCTION ADJUST_PITCH(sound, pitch):
+        # Adjust the pitch of a sound
+        sound.PITCH = pitch
+        PRINT "Pitch adjusted to: " + pitch
+    END_FUNCTION
+
+    DEFINE FUNCTION CREATE_SOUND_EFFECT(file_path, effect_type):
+        # Create a sound effect from a file with a specified effect type
+        effect = LOAD_SOUND(file_path)
+        APPLY_EFFECT(effect, effect_type)
+        PRINT "Sound effect created with type: " + effect_type
+        RETURN effect
+    END_FUNCTION
+
+    DEFINE FUNCTION SPATIAL_AUDIO_SETTINGS(listener_position, listener_orientation):
+        # Set up spatial audio for 3D sound positioning
+        SET_LISTENER_POSITION(listener_position)
+        SET_LISTENER_ORIENTATION(listener_orientation)
+        PRINT "Spatial audio settings updated."
+    END_FUNCTION
+
+    DEFINE FUNCTION MIX_SOUNDS(sound1, sound2):
+        # Mix two audio tracks together
+        mixed_sound = MIX(sound1, sound2)
+        PRINT "Mixed sound created from two tracks."
+        RETURN mixed_sound
+    END_FUNCTION
+
+    DEFINE FUNCTION APPLY_EQUALIZATION(sound, frequency, gain):
+        # Apply equalization effect to a sound
+        EQUALIZE(sound, frequency, gain)
+        PRINT "Equalization applied: frequency=" + frequency + ", gain=" + gain
+    END_FUNCTION
+
+    DEFINE FUNCTION APPLY_DISTORTION(sound, level):
+        # Apply distortion effect to a sound
+        DISTORT(sound, level)
+        PRINT "Distortion applied with level: " + level
+    END_FUNCTION
+
+    DEFINE FUNCTION APPLY_FILTER(sound, filter_type, frequency):
+        # Apply filtering effect to a sound
+        FILTER(sound, filter_type, frequency)
+        PRINT "Filter applied: type=" + filter_type + ", frequency=" + frequency
+    END_FUNCTION
+
+    DEFINE FUNCTION TRIGGER_AUDIO_EVENT(event_type, sound):
+        # Play sound based on an event
+        IF event_type == "COLLISION":
+            PLAY(sound)
+            PRINT "Collision sound triggered."
+        ELSE IF event_type == "PICKUP":
+            PLAY(sound)
+            PRINT "Pickup sound triggered."
+        ELSE:
+            PRINT "No audio event matched."
+    END_FUNCTION
+
+END_LIBRARY
