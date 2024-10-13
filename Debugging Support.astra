@@ -18,3 +18,31 @@ DEFINE FUNCTION WATCH_VARIABLE(variable_name):
     PRINT "Watching variable: " + variable_name
     # Implementation for watching variable values during execution
 END_FUNCTION
+
+# Advanced Debugging Utilities
+DEFINE FUNCTION DEBUG_START():
+    PRINT "Debugging session started."
+    SET_DEBUG_MODE(TRUE)
+
+DEFINE FUNCTION DEBUG_STOP():
+    PRINT "Debugging session ended."
+    SET_DEBUG_MODE(FALSE)
+
+DEFINE FUNCTION SET_BREAKPOINT(line_number):
+    APPEND DEBUG_BREAKPOINTS, line_number
+    PRINT "Breakpoint set at line: " + line_number
+
+DEFINE FUNCTION STEP_THROUGH():
+    IF DEBUG_MODE IS TRUE:
+        PRINT "Stepping through code..."
+        # Logic for stepping through each line of code
+    ELSE:
+        PRINT "Debug mode is not enabled."
+
+DEFINE FUNCTION INSPECT_VARIABLE(variable_name):
+    IF DEBUG_MODE IS TRUE:
+        value = GET_VARIABLE_VALUE(variable_name)
+        PRINT "Value of " + variable_name + ": " + value
+    ELSE:
+        PRINT "Debug mode is not enabled."
+END_FUNCTION
