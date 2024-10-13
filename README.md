@@ -142,3 +142,15 @@ APPLY_DISTORTION: Adds a distortion effect to the sound, which can be used creat
 APPLY_FILTER: Allows the application of different types of filters (like low-pass, high-pass, etc.) to the sound based on specified frequencies.
 TRIGGER_AUDIO_EVENT: Plays a sound based on game events like collisions and pickups, providing an event-driven audio experience.
 
+DYNAMIC_SOUND_MIXING: This function allows real-time mixing of two sound tracks based on a specified mix ratio, enabling dynamic audio experiences that can change based on user interactions or game states.
+
+ADD_EVENT_LISTENER: Developers can define custom event listeners that trigger audio responses based on specific game conditions or player actions.
+
+TRIGGER_CUSTOM_EVENT: Triggers a custom event, executing its associated callback function if the event is registered. This allows for a flexible audio system that can respond to unique in-game events.
+
+UPDATE_SPATIAL_AUDIO: Updates the spatial audio settings based on the listener's position relative to various sound sources, enhancing the 3D audio experience with real-time adjustments.
+
+Integration and Usability
+This extended library should be stored in the AstraPrime project repository, with appropriate documentation for each function in Markdown files for easy reference.
+The dynamic sound mixing and event listener capabilities should provide developers with extensive control over audio experiences, allowing them to create immersive environments tailored to gameplay.
+
