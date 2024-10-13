@@ -1,0 +1,20 @@
+# Enhanced Standard Library Examples
+
+# String Manipulation Library
+DEFINE FUNCTION string_utils_reverse(string):
+    RETURN REVERSE(string)
+
+DEFINE FUNCTION string_utils_uppercase(string):
+    RETURN UPPERCASE(string)
+
+# Mathematical Library
+DEFINE FUNCTION math_utils_factorial(n):
+    IF n <= 1 THEN RETURN 1
+    RETURN n * math_utils_factorial(n - 1)
+
+# Example of Using the Standard Libraries
+DEFINE FUNCTION standard_library_example():
+    PRINT "Reversed String: ", string_utils_reverse("AstraPrime")
+    PRINT "Uppercase String: ", string_utils_uppercase("AstraPrime")
+    PRINT "Factorial of 5: ", math_utils_factorial(5)  # Outputs: 120
+END_FUNCTION
