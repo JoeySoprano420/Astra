@@ -225,3 +225,36 @@ The fibonacci_interaction function allows users to input their desired Fibonacci
 Conclusion
 This implementation of the AstraPrime language significantly enhances the Fibonacci functions by adding robust error handling, memoization, execution time measurement, and user interaction. The language becomes more user-friendly and efficient for computing Fibonacci sequences, making it ideal for educational purposes, algorithmic studies, or game development.
 
+To expand and increase the Fibonacci sequence implementation in the AstraPrime language, and to introduce polyconditionals (complex conditional statements that handle multiple conditions simultaneously), I'll extend the previous functions. Polyconditionals can be especially useful in optimizing certain decision-making scenarios and handling edge cases more effectively.
+
+This version will:
+
+Expand the Fibonacci functionality by providing options for different sequence types.
+Add polyconditionals to streamline condition checks.
+Optimize performance by reducing unnecessary computations.
+Enhance error handling by introducing better checks for invalid inputs.
+Introduce sequence types, such as modulo-based Fibonacci and truncated Fibonacci, to handle additional sequence generation requirements.
+
+Explanation of Enhancements and Expansions
+Polyconditionals:
+
+Introduced in the fibonacci_polyconditional function to handle multiple types of Fibonacci sequences (standard, modulo, and truncated) using a polyconditional structure. This simplifies decision-making and allows flexible mode selection without redundant code.
+Advanced Fibonacci Modes:
+
+Standard Mode: The classic Fibonacci sequence using memoization.
+Modulo Mode: A version where the Fibonacci numbers are reduced by a modulus (useful for certain cryptographic or algorithmic applications).
+Truncated Mode: This stops generating the Fibonacci sequence after a certain value, limiting the results for specific use cases.
+Input Validation and Error Handling:
+
+All functions now check for invalid inputs, including non-integer values for n, invalid modulus values, and negative numbers.
+Polyconditional validation ensures that appropriate modes and values are selected based on user input.
+User Interaction:
+
+Enhanced the user interaction with options to choose between standard, modulo, and truncated Fibonacci sequences.
+For the modulo and truncated versions, additional parameters (modulus, truncation limit) can be specified by the user.
+Memoization:
+
+The memoization technique continues to be applied in the standard Fibonacci function for improved efficiency by caching results of previously computed Fibonacci numbers.
+Output Formatting:
+
+The interaction function prints out the result based on the user-selected Fibonacci mode, providing clear feedback on the sequence.
