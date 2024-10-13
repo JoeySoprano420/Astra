@@ -72,3 +72,35 @@ DEFINE FUNCTION SHOW_CURRENT_STATE(state):
     FOR variable IN state.LOCAL_VARIABLES:
         PRINT variable.NAME + " = " + variable.VALUE
 END_FUNCTION
+
+# Interactive Debugger Integration
+DEFINE FUNCTION start_debugger(target_code):
+    DEBUGGER_STATE = INITIALIZE_DEBUGGER(target_code)
+    WHILE DEBUGGER_STATE.RUNNING:
+        current_instruction = GET_CURRENT_INSTRUCTION(DEBUGGER_STATE)
+        PRINT_DEBUG_INFO(current_instruction)
+        
+        IF CHECK_BREAKPOINTS(DEBUGGER_STATE):
+            DISPLAY_VARIABLES(DEBUGGER_STATE)
+            USER_COMMAND = GET_USER_COMMAND()
+            HANDLE_USER_COMMAND(USER_COMMAND, DEBUGGER_STATE)
+
+DEFINE FUNCTION CHECK_BREAKPOINTS(debugger_state):
+    # Check if the current instruction matches any breakpoints
+END_FUNCTION
+
+DEFINE FUNCTION DISPLAY_VARIABLES(debugger_state):
+    # Display current values of variables in the scope
+END_FUNCTION
+
+DEFINE FUNCTION HANDLE_USER_COMMAND(command, debugger_state):
+    SWITCH command:
+        CASE "step":
+            STEP_THROUGH(debugger_state)
+        CASE "continue":
+            CONTINUE_EXECUTION(debugger_state)
+        CASE "watch":
+            ADD_WATCH_VARIABLE(debugger_state)
+        DEFAULT:
+            PRINT "Unknown command."
+END_FUNCTION
