@@ -26,3 +26,23 @@ DEFINE FUNCTION PRINT_ERRORS(error_list):
     FOR error IN error_list:
         PRINT error.MESSAGE
 END_FUNCTION
+
+# Enhanced Error Reporting Mechanism
+DEFINE FUNCTION CREATE_ERROR(message, details = []):
+    RETURN {
+        ERROR_MESSAGE = message,
+        TIMESTAMP = CURRENT_TIMESTAMP(),
+        ERROR_DETAILS = details,
+        SUGGESTIONS = GENERATE_SUGGESTIONS(message)
+    }
+
+DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
+    suggestions = []
+    IF message MATCH "Lexical Errors Detected":
+        APPEND suggestions, "Check for typos or unsupported characters."
+    ELSE IF message MATCH "Parsing Error":
+        APPEND suggestions, "Review syntax; ensure all constructs are properly formed."
+    ELSE IF message MATCH "Unexpected token":
+        APPEND suggestions, "Consider if the token is in the correct context."
+    RETURN suggestions
+END_FUNCTION
