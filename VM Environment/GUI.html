@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>AstraPrime VM Control Panel</title>
+    <style>
+        body { font-family: Arial; background-color: #F0F0F0; }
+        #console { width: 100%; height: 300px; background-color: #000; color: #00FF00; }
+    </style>
+</head>
+<body>
+    <h1>AstraPrime Virtual Machine</h1>
+
+    <div>
+        <input type="file" id="codeFile" />
+        <button onclick="loadCode()">Load Code</button>
+        <button onclick="runVM()">Run</button>
+        <button onclick="stopVM()">Stop</button>
+    </div>
+
+    <div id="console">VM Output Console</div>
+
+    <script>
+        function loadCode() {
+            let fileInput = document.getElementById("codeFile");
+            let file = fileInput.files[0];
+            let reader = new FileReader();
+
+            reader.onload = function() {
+                console.log("Code loaded into VM: " + reader.result);
+                // Call VM function to load code
+                VM.load_code(reader.result);
+            }
+
+            reader.readAsText(file);
+        }
+
+        function runVM() {
+            console.log("Running AstraPrime VM...");
+            VM.run();
+        }
+
+        function stopVM() {
+            console.log("Stopping AstraPrime VM...");
+            VM.stop();
+        }
+    </script>
+</body>
+</html>
