@@ -118,3 +118,13 @@ Performance Optimization Considerations: All computations are designed to minimi
 
 Dynamic Input Handling: The system provides feedback to the user, ensuring they are aware of the changes made, and helping them make informed adjustments.
 
+Graphics Rendering Library: Functions for 2D and 3D rendering, texture management, and background color settings.
+
+Physics Simulation Library: Basic physics functionalities, including gravity, collision detection, and fluid dynamics simulation.
+
+Data Manipulation Library: Advanced data handling functions such as creating, sorting, and filtering arrays.
+
+User Interface Library: Components for creating buttons, menus, and displaying messages to improve user interaction.
+
+Advanced Effects Library: Integration of advanced visual effects such as glistening, shimmering, reflection, and refraction effects.
+
