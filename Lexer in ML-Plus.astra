@@ -18,14 +18,16 @@ DEFINE FUNCTION lex_source_code(source_code):
             CONTINUE
         
         IF is_string:
+            IF escape_sequence:
+                escape_sequence = FALSE
+                CONTINUE
             IF char MATCH "\\":
                 escape_sequence = TRUE
                 CONTINUE
             IF char MATCH "\"":
                 is_string = FALSE
-            ELSE:
-                APPEND TOKEN_LIST, CREATE_TOKEN("STRING", char)
-            CONTINUE
+                APPEND TOKEN_LIST, CREATE_TOKEN("STRING", "Completed String")
+                CONTINUE
             
         IF char MATCH "\"":
             is_string = TRUE
