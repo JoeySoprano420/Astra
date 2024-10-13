@@ -331,3 +331,23 @@ DEFINE FUNCTION compile_astraprime(source_code):
     RETURN target_code
 END_FUNCTION
 
+# Apply various advanced optimization techniques
+DEFINE FUNCTION optimize_ast(ast):
+    ast = constant_folding(ast)
+    ast = inline_functions(ast)
+    ast = eliminate_dead_code(ast)
+    ast = loop_unrolling(ast)
+    ast = register_allocation(ast)
+    ast = constant_propagation(ast)
+    RETURN ast
+
+DEFINE FUNCTION constant_propagation(ast):
+    FOR node IN ast:
+        IF node.TYPE IS "ASSIGNMENT" AND IS_CONSTANT(node.VALUE):
+            PROPAGATE_CONSTANT(node)
+    RETURN ast
+END_FUNCTION
+
+DEFINE FUNCTION IS_CONSTANT(value):
+    RETURN value MATCH "^[0-9]+$" OR value MATCH "^\".*\"$"
+END_FUNCTION
