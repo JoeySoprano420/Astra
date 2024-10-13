@@ -38,3 +38,65 @@ DEFINE FUNCTION explicit_memory_management_example():
     PRINT "Memory freed successfully."
 END_FUNCTION
 
+# Explicit Memory Management
+DEFINE FUNCTION allocate_memory(size):
+    memory_block = ALLOCATE_MEMORY(size)
+    RETURN memory_block
+
+DEFINE FUNCTION free_memory(memory_block):
+    FREE_MEMORY(memory_block)
+
+# Example Usage of Explicit Memory Management
+DEFINE FUNCTION explicit_memory_management_example():
+    memory = allocate_memory(1024)
+    IF memory IS NULL:
+        PRINT "Memory allocation failed."
+        RETURN
+    
+    # Use the memory block...
+    
+    free_memory(memory)
+    PRINT "Memory freed successfully."
+END_FUNCTION
+
+# Data Packet Structure
+DEFINE CLASS DataPacket:
+    ATTRIBUTES:
+        packet_id
+        payload
+        checksum
+
+    DEFINE CONSTRUCTOR(id, data):
+        self.packet_id = id
+        self.payload = data
+        self.checksum = self.calculate_checksum()
+
+    DEFINE FUNCTION calculate_checksum():
+        # Simple checksum calculation
+        RETURN HASH(self.payload)
+
+# Example of Creating a Data Packet
+DEFINE FUNCTION create_data_packet():
+    packet = DataPacket(1, "This is some data")
+    PRINT "Packet ID: ", packet.packet_id, " Checksum: ", packet.checksum
+END_FUNCTION
+
+# Packet Serialization
+DEFINE FUNCTION serialize_packet(packet):
+    RETURN JSON_SERIALIZE(packet)
+
+# Packet Deserialization
+DEFINE FUNCTION deserialize_packet(packet_data):
+    RETURN JSON_DESERIALIZE(packet_data)
+
+# Example of Using Serialization
+DEFINE FUNCTION packet_transmission_example():
+    packet = DataPacket(1, "Hello, world!")
+    serialized_data = serialize_packet(packet)
+    PRINT "Serialized Packet: ", serialized_data
+
+    received_data = serialized_data  # Simulating receiving data
+    received_packet = deserialize_packet(received_data)
+    PRINT "Received Packet: ", received_packet.payload
+END_FUNCTION
+
