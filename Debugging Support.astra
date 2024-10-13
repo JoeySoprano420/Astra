@@ -1,0 +1,20 @@
+# Debugging Support Features
+DEFINE FUNCTION DEBUGGING_MODE_ENABLED():
+    RETURN DEBUG_MODE
+
+DEFINE FUNCTION ENTER_DEBUG_MODE():
+    PRINT "Entering Debug Mode..."
+    # Here, implement hooks for breakpoints, watches, etc.
+
+DEFINE FUNCTION EXIT_DEBUG_MODE():
+    PRINT "Exiting Debug Mode..."
+    # Clean up debugging hooks
+
+DEFINE FUNCTION SET_BREAKPOINT(line_number):
+    PRINT "Breakpoint set at line: " + line_number
+    # Implementation for managing breakpoints
+
+DEFINE FUNCTION WATCH_VARIABLE(variable_name):
+    PRINT "Watching variable: " + variable_name
+    # Implementation for watching variable values during execution
+END_FUNCTION
