@@ -1,3 +1,173 @@
 # Full-throttle compilation and optimizations
 OPTIMIZE FULL_THROTTLE_COMPILATION ENABLED
 REDUCE_LOAD_TIME ENABLED
+
+# Enhanced AstraPrime Compiler: Optimized Compilation to Multiple Targets
+DEFINE FUNCTION compile_to_mdril(parse_tree):
+    MDRI_CODE = INIT_CODE_BLOCK()
+    ERROR_LIST = []
+    
+    # Optimize parse tree before compilation
+    OPTIMIZE_PARSE_TREE(parse_tree)
+    
+    FOR EACH node IN parse_tree:
+        COMPILE_NODE_TO_MDRI(node, MDRI_CODE, ERROR_LIST)
+    
+    # Output compiled MDRI CIL
+    WRITE_FILE "output.mdril", MDRI_CODE
+    PRINT "Compilation to MDRI Complete with errors: " + LENGTH(ERROR_LIST)
+    RETURN (MDRI_CODE, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION COMPILE_NODE_TO_MDRI(node, MDRI_CODE, ERROR_LIST):
+    CASE node.type OF:
+        "IDENTIFIER":
+            APPEND MDRI_CODE, "PUSH " + node.value
+        "NUMBER":
+            APPEND MDRI_CODE, "PUSH_NUM " + node.value
+        "OPERATOR":
+            APPEND MDRI_CODE, "OPER " + node.value
+        "SYMBOL":
+            HANDLE_SYMBOL(node, MDRI_CODE)
+        DEFAULT:
+            APPEND ERROR_LIST, CREATE_ERROR("Unknown node type in parsing: " + node.value)
+    END_CASE
+END_FUNCTION
+
+DEFINE FUNCTION HANDLE_SYMBOL(node, MDRI_CODE):
+    # Handling for specific symbols like brackets, semicolons, etc.
+    SWITCH node.value:
+        CASE "(":
+            APPEND MDRI_CODE, "CALL"
+        CASE ")":
+            APPEND MDRI_CODE, "ENDCALL"
+        CASE "{":
+            APPEND MDRI_CODE, "BLOCK_START"
+        CASE "}":
+            APPEND MDRI_CODE, "BLOCK_END"
+        CASE ";":
+            APPEND MDRI_CODE, "END_STATEMENT"
+        DEFAULT:
+            APPEND ERROR_LIST, CREATE_ERROR("Unrecognized symbol: " + node.value)
+    END_SWITCH
+END_FUNCTION
+
+DEFINE FUNCTION OPTIMIZE_PARSE_TREE(parse_tree):
+    # Implement various optimization techniques
+    REMOVE_REDUNDANT_NODES(parse_tree)
+    CONSTANT_FOLDING(parse_tree)
+    DEAD_CODE_ELIMINATION(parse_tree)
+END_FUNCTION
+
+# Enhanced Compiler: Optimizing AST to Bytecode with Advanced Features
+DEFINE FUNCTION compile_ast(AST):
+    BYTECODE = []
+    ERROR_LIST = []
+
+    FOR node IN AST.NODES:
+        result = COMPILE_NODE(node)
+        IF result.IS_ERROR:
+            APPEND ERROR_LIST, result.ERROR_MESSAGE
+        ELSE:
+            APPEND BYTECODE, result.BYTECODE
+
+    RETURN (BYTECODE, ERROR_LIST)
+
+DEFINE FUNCTION COMPILE_NODE(node):
+    SWITCH node.TYPE:
+        CASE "Identifier":
+            RETURN CREATE_BYTECODE("LOAD_VAR", node.VALUE)
+        CASE "Literal":
+            RETURN CREATE_BYTECODE("LOAD_CONST", node.VALUE)
+        CASE "Operator":
+            RETURN CREATE_BYTECODE("EXECUTE_OP", node.VALUE)
+        CASE "Symbol":
+            RETURN CREATE_BYTECODE("HANDLE_SYMBOL", node.VALUE)
+        DEFAULT:
+            RETURN CREATE_ERROR("Unknown node type: " + node.TYPE)
+END_FUNCTION
+
+# Enhanced Compiler: Optimizing AST to Bytecode with Advanced Features
+DEFINE FUNCTION compile_ast(AST):
+    BYTECODE = []
+    ERROR_LIST = []
+
+    FOR node IN AST.NODES:
+        result = COMPILE_NODE(node)
+        IF result.IS_ERROR:
+            APPEND ERROR_LIST, result.ERROR_MESSAGE
+        ELSE:
+            APPEND BYTECODE, result.BYTECODE
+
+    RETURN (BYTECODE, ERROR_LIST)
+
+DEFINE FUNCTION COMPILE_NODE(node):
+    SWITCH node.TYPE:
+        CASE "Identifier":
+            RETURN CREATE_BYTECODE("LOAD_VAR", node.VALUE)
+        CASE "Literal":
+            RETURN CREATE_BYTECODE("LOAD_CONST", node.VALUE)
+        CASE "Operator":
+            RETURN CREATE_BYTECODE("EXECUTE_OP", node.VALUE)
+        CASE "Symbol":
+            RETURN CREATE_BYTECODE("HANDLE_SYMBOL", node.VALUE)
+        DEFAULT:
+            RETURN CREATE_ERROR("Unknown node type: " + node.TYPE)
+END_FUNCTION
+
+# AstraPrime Compiler: Code Generation and Optimization
+DEFINE FUNCTION compile(ast):
+    MACHINE_CODE = []
+    ERROR_LIST = []
+
+    FOR node IN ast:
+        code = GENERATE_CODE(node)
+        IF code.error:
+            APPEND ERROR_LIST, code.error
+        ELSE:
+            APPEND MACHINE_CODE, code
+
+    # Perform optimizations on the generated machine code
+    OPTIMIZE_MACHINE_CODE(MACHINE_CODE)
+
+    RETURN (MACHINE_CODE, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION GENERATE_CODE(node):
+    IF node.type IS "IDENTIFIER":
+        RETURN CREATE_MACHINE_CODE("LOAD", node.value)
+    ELSE IF node.type IS "FUNCTION_CALL":
+        RETURN CREATE_MACHINE_CODE("CALL", node.function_name)
+    
+    RETURN CREATE_ERROR("Unknown node type: " + node.type)
+END_FUNCTION
+
+DEFINE FUNCTION OPTIMIZE_MACHINE_CODE(machine_code):
+    # Implement optimizations, such as dead code elimination or inlining
+    # For simplicity, this is a placeholder
+    RETURN
+END_FUNCTION
+
+# Enhanced AstraPrime Compiler: Code Generation and Optimization
+DEFINE FUNCTION compile_astraprime(source_code):
+    (TOKEN_LIST, ERROR_LIST) = lex_source_code(source_code)
+    
+    # Check for lexical errors before proceeding
+    IF LENGTH(ERROR_LIST) > 0:
+        RETURN CREATE_ERROR("Lexical Errors Detected", ERROR_LIST)
+    
+    # Parse tokens into an Abstract Syntax Tree (AST)
+    AST = parse_tokens(TOKEN_LIST)
+    
+    # Check for parsing errors
+    IF IS_ERROR(AST):
+        RETURN CREATE_ERROR("Parsing Error", AST.ERROR_LIST)
+    
+    # Optimize the AST
+    OPTIMIZED_AST = optimize_ast(AST)
+
+    # Generate target code from the optimized AST
+    target_code = generate_code(OPTIMIZED_AST)
+    
+    RETURN target_code
+END_FUNCTION
