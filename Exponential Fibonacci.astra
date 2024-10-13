@@ -277,3 +277,40 @@ END_FUNCTION
 
 # Execution Example with Polyconditionals and Enhanced Interaction
 fibonacci_interaction()
+
+# Multithreaded Fibonacci Computation
+
+# Import necessary threading libraries
+IMPORT THREADING
+
+# Worker function for multithreaded Fibonacci
+DEFINE FUNCTION fibonacci_thread_worker(n, result, index):
+    result[index] = fibonacci_standard(n)
+
+# Multithreaded Fibonacci Function
+DEFINE FUNCTION fibonacci_multithreaded(n):
+    IF n <= 1 THEN RETURN n
+    
+    result = [0, 0]  # Initialize array to store results from threads
+    
+    # Create threads for Fibonacci(n-1) and Fibonacci(n-2)
+    thread1 = THREAD(fibonacci_thread_worker, n-1, result, 0)
+    thread2 = THREAD(fibonacci_thread_worker, n-2, result, 1)
+    
+    # Start both threads
+    thread1.START()
+    thread2.START()
+
+    # Wait for both threads to complete
+    thread1.JOIN()
+    thread2.JOIN()
+
+    # Return combined result
+    RETURN result[0] + result[1]
+
+# Example of running Fibonacci in multithreaded mode
+DEFINE FUNCTION run_multithreaded_fibonacci():
+    n = 30  # Set n to a higher value for testing
+    result = fibonacci_multithreaded(n)
+    PRINT "Multithreaded Fibonacci F(", n, ") = ", result
+END_FUNCTION
