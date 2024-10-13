@@ -169,3 +169,19 @@ The 3D audio positioning now includes simple attenuation logic based on distance
 Event Triggering:
 
 A TRIGGER_EVENT function allows for specific sounds to be played based on in-game actions, improving interaction.
+
+Advanced Audio Effects:
+
+Added Pitch Shifting effect to allow dynamic adjustments to sound frequencies.
+Included an Advanced Equalization feature to enhance sound quality.
+3D Environmental Effects:
+
+Implemented Environmental Effects Calculation based on the distance from the listener and the nature of the space (e.g., reverberant).
+Testing Framework:
+
+A testing function (TEST_AUDIO_FUNCTIONS) is included to validate the functionality of loading sounds, applying effects, and verifying 3D positioning.
+Dynamic Adjustments:
+
+Functionality for dynamically adjusting sound based on game conditions or user interactions.
+This structured approach provides a c
+
