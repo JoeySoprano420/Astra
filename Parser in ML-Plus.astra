@@ -49,3 +49,37 @@ DEFINE FUNCTION FIX_LINE(token):
     RETURN "Error fixed for token: " + token.value
 END_FUNCTION
 
+# Upgraded AstraPrime Parser: Robust Syntax Validation and Context Awareness
+DEFINE FUNCTION parse_tokens(token_list):
+    PARSE_TREE = INIT_TREE()
+    ERROR_LIST = []
+
+    FOR EACH token IN token_list:
+        IF token IS VALID:
+            PARSE_NODE = CONVERT_TOKEN_TO_NODE(token)
+            APPEND PARSE_TREE, PARSE_NODE
+        ELSE:
+            ERROR_MESSAGE = FIX_LINE(token)
+            APPEND ERROR_LIST, ERROR_MESSAGE
+            APPEND PARSE_TREE, RECONSTRUCTED_NODE(token)
+    
+    RETURN (PARSE_TREE, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION FIX_LINE(token):
+    # Advanced error correction with contextual insights
+    CONTEXTUAL_ANALYSIS token
+    REBUILD_TOKEN token UNTIL CORRECT
+    RETURN "Error fixed for token: " + token.value
+END_FUNCTION
+
+DEFINE FUNCTION CONVERT_TOKEN_TO_NODE(token):
+    # Enhanced node conversion for function definitions and complex types
+    IF token.type MATCH "IDENTIFIER":
+        RETURN CREATE_NODE("FUNCTION_CALL", token.value)
+    ELSE IF token.type MATCH "NUMBER":
+        RETURN CREATE_NODE("LITERAL", token.value)
+    ELSE:
+        RETURN CREATE_NODE(token.type, token.value)
+END_FUNCTION
+
