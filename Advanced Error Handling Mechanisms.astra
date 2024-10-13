@@ -220,3 +220,17 @@ DEFINE FUNCTION CREATE_ERROR(message, details = [], severity = "ERROR", location
         STACK_TRACE = GET_STACK_TRACE(),
         SEVERITY = severity
     }
+
+# Proactive Error Resolution Suggestions
+DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
+    suggestions = []
+    IF message MATCH "Lexical Errors Detected":
+        APPEND suggestions, "Check for typos or unsupported characters in your identifiers."
+    ELSE IF message MATCH "Parsing Errors Detected":
+        APPEND suggestions, "Ensure all brackets and parentheses are correctly closed."
+    ELSE IF message MATCH "Semantic Errors Detected":
+        APPEND suggestions, "Verify that all variables are defined before use."
+    ELSE IF message MATCH "Runtime Error":
+        APPEND suggestions, "Consider adding checks for null or undefined values."
+    RETURN suggestions
+END_FUNCTION
