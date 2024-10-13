@@ -110,3 +110,36 @@ DEFINE FUNCTION COMPILE_NODE(node):
         DEFAULT:
             RETURN CREATE_ERROR("Unknown node type: " + node.TYPE)
 END_FUNCTION
+
+# AstraPrime Compiler: Code Generation and Optimization
+DEFINE FUNCTION compile(ast):
+    MACHINE_CODE = []
+    ERROR_LIST = []
+
+    FOR node IN ast:
+        code = GENERATE_CODE(node)
+        IF code.error:
+            APPEND ERROR_LIST, code.error
+        ELSE:
+            APPEND MACHINE_CODE, code
+
+    # Perform optimizations on the generated machine code
+    OPTIMIZE_MACHINE_CODE(MACHINE_CODE)
+
+    RETURN (MACHINE_CODE, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION GENERATE_CODE(node):
+    IF node.type IS "IDENTIFIER":
+        RETURN CREATE_MACHINE_CODE("LOAD", node.value)
+    ELSE IF node.type IS "FUNCTION_CALL":
+        RETURN CREATE_MACHINE_CODE("CALL", node.function_name)
+    
+    RETURN CREATE_ERROR("Unknown node type: " + node.type)
+END_FUNCTION
+
+DEFINE FUNCTION OPTIMIZE_MACHINE_CODE(machine_code):
+    # Implement optimizations, such as dead code elimination or inlining
+    # For simplicity, this is a placeholder
+    RETURN
+END_FUNCTION
