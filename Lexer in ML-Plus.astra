@@ -1,25 +1,32 @@
-# AstraPrime Lexer: Dissect and Discern-Style Lexer
+# Upgraded AstraPrime Lexer: Advanced Tokenization and Error Handling
 DEFINE FUNCTION lex_source_code(source_code):
     TOKEN_LIST = []
+    ERROR_LIST = []
     
-    # Tokenize using pinpoint scans
+    # Tokenize using advanced pinpoint scans
     FOR EACH char IN source_code:
         IF char IS WHITESPACE:
             CONTINUE
         ELSE:
             token = DETERMINE_TOKEN_TYPE(char)
-            APPEND TOKEN_LIST, token
-    
-    # Advanced analysis using pinpoint and sentiment analysis
-    SENTIMENT_ANALYSIS token
+            IF token IS UNKNOWN:
+                APPEND ERROR_LIST, CREATE_ERROR("Unexpected character: " + char)
+            ELSE:
+                APPEND TOKEN_LIST, token
+
+    # Perform advanced noise reduction and sentiment analysis
     TOKEN_LIST = REMOVE_NOISE(TOKEN_LIST)
-    RETURN TOKEN_LIST
+    SENTIMENT_ANALYSIS TOKEN_LIST
+    
+    RETURN (TOKEN_LIST, ERROR_LIST)
 END_FUNCTION
 
 DEFINE FUNCTION DETERMINE_TOKEN_TYPE(char):
-    IF char MATCH "[A-Za-z0-9]":
+    IF char MATCH "[A-Za-z_][A-Za-z0-9_]*":
         RETURN CREATE_TOKEN("IDENTIFIER", char)
-    ELSE IF char MATCH "[+-/*=<>]":
+    ELSE IF char MATCH "[0-9]+(\.[0-9]+)?":
+        RETURN CREATE_TOKEN("NUMBER", char)
+    ELSE IF char MATCH "[+-/*=<>!&|]":
         RETURN CREATE_TOKEN("OPERATOR", char)
     ELSE IF char MATCH "[(){};]":
         RETURN CREATE_TOKEN("SYMBOL", char)
