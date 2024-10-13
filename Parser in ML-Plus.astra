@@ -279,3 +279,20 @@ DEFINE FUNCTION PARSE_EXPRESSION(token_list, position):
 
     RETURN (CREATE_ERROR("Expected identifier at position: " + position), position)
 END_FUNCTION
+
+# Parse tokens into an Abstract Syntax Tree (AST)
+DEFINE FUNCTION parse_tokens(token_list):
+    AST = CREATE_AST()
+
+    FOR EACH token IN token_list:
+        IF token IS KEYWORD:
+            PROCESS_KEYWORD(token, AST)
+        ELSE IF token IS IDENTIFIER:
+            PROCESS_IDENTIFIER(token, AST)
+        ELSE IF token IS NUMBER:
+            PROCESS_NUMBER(token, AST)
+        ELSE:
+            APPEND AST.ERROR_LIST, CREATE_ERROR("Unexpected token: " + token)
+
+    RETURN AST
+END_FUNCTION
