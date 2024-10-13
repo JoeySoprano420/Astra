@@ -128,3 +128,18 @@ END_FUNCTION
 DEFINE FUNCTION HANDLE_DEBUG_COMMAND():
     # Process user debug commands (step over, step into, continue, etc.)
 END_FUNCTION
+
+# Debugging Tools Implementation
+
+DEFINE FUNCTION debug_print(variable, message):
+    PRINT "[DEBUG] " + message + ": " + TO_STRING(variable)
+
+# Example Usage of Debugging Tools
+DEFINE FUNCTION debugging_example():
+    x = 10
+    debug_print(x, "Initial value of x")
+
+    x = x + 5
+    debug_print(x, "Value of x after addition")
+END_FUNCTION
+
