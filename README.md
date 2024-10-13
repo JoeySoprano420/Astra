@@ -206,3 +206,22 @@ To ensure everything works correctly, you can run the fibonacci_example() functi
 Conclusion
 This expansion not only enhances the capabilities of the AstraPrime language but also provides a powerful tool for developers to compute Fibonacci numbers efficiently, making it well-suited for applications that require rapid calculations of Fibonacci sequences.
 
+Explanation of the Enhancements
+Global Memoization:
+
+A global dictionary memo is used to cache results of the standard Fibonacci function to improve performance by avoiding redundant calculations.
+Error Handling:
+
+Each function checks if n is negative and returns an error message for invalid input.
+Display Function:
+
+The display_fibonacci_sequence function prints the Fibonacci sequence up to the given number of terms using the specified method.
+Performance Measurement:
+
+The measure_execution_time function measures the time taken to compute the Fibonacci number, providing insight into the performance of each method.
+User Interaction:
+
+The fibonacci_interaction function allows users to input their desired Fibonacci term count and displays results, execution times, and the complete Fibonacci sequence for both methods.
+Conclusion
+This implementation of the AstraPrime language significantly enhances the Fibonacci functions by adding robust error handling, memoization, execution time measurement, and user interaction. The language becomes more user-friendly and efficient for computing Fibonacci sequences, making it ideal for educational purposes, algorithmic studies, or game development.
+
