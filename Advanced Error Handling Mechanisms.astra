@@ -13,3 +13,16 @@ DEFINE FUNCTION GET_STACK_TRACE():
 
 DEFINE FUNCTION LOG_ERROR(error):
     WRITE_FILE "error_log.txt", error.ERROR_MESSAGE + " at " + error.TIMESTAMP + "\n"
+
+# Enhanced Error Handling in AstraPrime
+DEFINE FUNCTION CREATE_ERROR(message):
+    RETURN {
+        TYPE = "ERROR",
+        MESSAGE = message,
+        TIMESTAMP = CURRENT_TIMESTAMP()
+    }
+
+DEFINE FUNCTION PRINT_ERRORS(error_list):
+    FOR error IN error_list:
+        PRINT error.MESSAGE
+END_FUNCTION
