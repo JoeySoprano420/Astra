@@ -134,3 +134,11 @@ Audio Mixing: Implement functions to mix multiple audio tracks together for more
 Advanced Effects: Expand with more audio effects, such as equalization, distortion, and filtering, to enhance sound quality and creativity.
 Event Triggering: Implement event-driven audio triggering to play sounds based on specific game events (e.g., collisions, pickups, etc.).
 
+Detailed Explanation of Added Functions
+CHECK_AUDIO_FORMAT: Validates the audio format of the file before loading it. Supports MP3, WAV, and OGG formats.
+MIX_SOUNDS: Mixes two sound tracks together, allowing for complex audio layering.
+APPLY_EQUALIZATION: Applies an equalization effect to enhance specific frequency ranges in the sound.
+APPLY_DISTORTION: Adds a distortion effect to the sound, which can be used creatively for various effects.
+APPLY_FILTER: Allows the application of different types of filters (like low-pass, high-pass, etc.) to the sound based on specified frequencies.
+TRIGGER_AUDIO_EVENT: Plays a sound based on game events like collisions and pickups, providing an event-driven audio experience.
+
