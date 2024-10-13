@@ -159,3 +159,42 @@ DEFINE FUNCTION PERFORM_SEMANTIC_ANALYSIS(parse_tree, error_list):
         IF NOT IS_SEMANTICALLY_CORRECT(node):
             APPEND error_list, CREATE_ERROR("Semantic error in node: " + node.value)
 END_FUNCTION
+
+# Robust AstraPrime Parser: Comprehensive Parsing and Error Recovery
+DEFINE FUNCTION parse_tokens(token_list):
+    PARSE_TREE = INIT_TREE()
+    ERROR_LIST = []
+
+    # Initialize context stack for nested structures
+    CONTEXT_STACK = INIT_CONTEXT_STACK()
+
+    FOR EACH token IN token_list:
+        IF token IS VALID:
+            PARSE_NODE = CONVERT_TOKEN_TO_NODE(token)
+            APPEND PARSE_TREE, PARSE_NODE
+            PUSH_CONTEXT(CONTEXT_STACK, PARSE_NODE)
+        ELSE:
+            # Error handling: fix errors line by line intuitively
+            ERROR = FIX_LINE(token)
+            APPEND ERROR_LIST, ERROR
+            IF ERROR IS CRITICAL:
+                BREAK
+
+    RETURN (PARSE_TREE, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION CONVERT_TOKEN_TO_NODE(token):
+    # Converts tokens into syntax tree nodes with enhanced handling
+    RETURN CREATE_NODE(token.type, token.value)
+
+DEFINE FUNCTION FIX_LINE(token):
+    # Reconstruct and remodel code based on surrounding context
+    CONTEXTUAL_ANALYSIS(token)
+    REBUILD_TOKEN(token) UNTIL CORRECT
+    RETURN CREATE_ERROR("Reconstructed token: " + token.value)
+END_FUNCTION
+
+DEFINE FUNCTION PUSH_CONTEXT(context_stack, node):
+    # Push current context to the stack for nested structures
+    APPEND context_stack, node
+END_FUNCTION
