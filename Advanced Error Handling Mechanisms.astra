@@ -331,3 +331,45 @@ DEFINE FUNCTION array_comprehension_example(values):
     new_array = [value * 2 FOR value IN values IF value > 0]
     RETURN new_array
 END_FUNCTION
+
+# Base Error Class
+DEFINE CLASS BaseError:
+    ATTRIBUTES:
+        error_message
+        error_code
+
+    DEFINE CONSTRUCTOR(message, code):
+        self.error_message = message
+        self.error_code = code
+
+# Specific Error Types
+DEFINE CLASS ValidationError EXTENDS BaseError:
+    DEFINE CONSTRUCTOR(message):
+        SUPER(message, 400)
+
+DEFINE CLASS NotFoundError EXTENDS BaseError:
+    DEFINE CONSTRUCTOR(message):
+        SUPER(message, 404)
+
+# Example Usage of Hierarchical Errors
+DEFINE FUNCTION hierarchical_error_example():
+    TRY:
+        THROW ValidationError("Invalid input")
+    CATCH (error AS ValidationError):
+        PRINT "Validation Error: ", error.error_message, " Code: ", error.error_code
+    CATCH (error AS BaseError):
+        PRINT "Base Error: ", error.error_message
+END_FUNCTION
+
+# Logging Errors to a File
+DEFINE FUNCTION log_error(error):
+    WRITE_FILE "error_log.txt", error.error_message + " Code: " + error.error_code + "\n", APPEND
+
+DEFINE FUNCTION error_logging_example():
+    TRY:
+        THROW NotFoundError("Resource not found")
+    CATCH (error AS NotFoundError):
+        log_error(error)
+        PRINT "Error logged: ", error.error_message
+END_FUNCTION
+
