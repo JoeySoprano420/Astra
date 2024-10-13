@@ -144,3 +144,136 @@ END_FUNCTION
 
 # Example Usage of Fibonacci Interaction
 fibonacci_interaction()  # Start the user interaction for Fibonacci computation
+
+# Extended Fibonacci Function Implementations with Polyconditionals and Advanced Features
+
+# Global memoization dictionary for caching Fibonacci results
+DEFINE GLOBAL memo = {}
+
+# Define Fibonacci Modes for additional sequence types
+DEFINE ENUM FibonacciMode:
+    STANDARD
+    MODULO
+    TRUNCATED
+
+# Polyconditional Fibonacci with Enhanced Validation
+DEFINE FUNCTION fibonacci_polyconditional(n, mode, modulus=1000, truncate_limit=100):
+    # Polyconditional Error Handling: Input Validation
+    IF n < 0 THEN:
+        PRINT "Error: Fibonacci is not defined for negative numbers."
+        RETURN -1  # Error code for invalid input
+    END_IF
+
+    # Polyconditional: Handling Fibonacci Sequence Modes
+    IF mode == FibonacciMode.STANDARD THEN:
+        RETURN fibonacci_standard(n)  # Call the standard Fibonacci function
+    
+    ELSE IF mode == FibonacciMode.MODULO THEN:
+        RETURN fibonacci_modulo(n, modulus)  # Call the modulo-based Fibonacci function
+    
+    ELSE IF mode == FibonacciMode.TRUNCATED THEN:
+        RETURN fibonacci_truncated(n, truncate_limit)  # Call the truncated Fibonacci function
+    
+    ELSE:
+        PRINT "Error: Unknown Fibonacci mode selected."
+        RETURN -1  # Error code for unknown mode
+
+# Standard Fibonacci Function with Memoization
+DEFINE FUNCTION fibonacci_standard(n):
+    IF n IN memo THEN:
+        RETURN memo[n]  # Return cached result
+    ELSE IF n == 0 THEN:
+        RETURN 0
+    ELSE IF n == 1 THEN:
+        RETURN 1
+
+    # Memoized recursive calculation
+    memo[n] = fibonacci_standard(n - 1) + fibonacci_standard(n - 2)
+    RETURN memo[n]
+
+# Modulo-based Fibonacci Function (Fibonacci sequence with results modulo a given number)
+DEFINE FUNCTION fibonacci_modulo(n, modulus):
+    IF modulus <= 0 THEN:
+        PRINT "Error: Modulus must be a positive number."
+        RETURN -1  # Error code for invalid modulus
+    ELSE IF n == 0 THEN:
+        RETURN 0
+    ELSE IF n == 1 THEN:
+        RETURN 1
+
+    # Calculate Fibonacci with modulo constraint
+    fib_n_minus_2 = 0
+    fib_n_minus_1 = 1
+    fib_current = 0
+    FOR i FROM 2 TO n:
+        fib_current = (fib_n_minus_1 + fib_n_minus_2) % modulus
+        fib_n_minus_2 = fib_n_minus_1
+        fib_n_minus_1 = fib_current
+    RETURN fib_current
+
+# Truncated Fibonacci Function (Stops the sequence at a given limit)
+DEFINE FUNCTION fibonacci_truncated(n, truncate_limit):
+    IF n == 0 THEN:
+        RETURN 0
+    ELSE IF n == 1 THEN:
+        RETURN 1
+    ELSE IF truncate_limit <= 0 THEN:
+        PRINT "Error: Truncate limit must be a positive integer."
+        RETURN -1  # Error code for invalid truncate limit
+    
+    # Calculate and truncate the sequence
+    fib_n_minus_2 = 0
+    fib_n_minus_1 = 1
+    fib_current = 0
+    FOR i FROM 2 TO n:
+        fib_current = fib_n_minus_1 + fib_n_minus_2
+        IF fib_current > truncate_limit THEN:
+            RETURN truncate_limit  # Return the truncation limit if exceeded
+        fib_n_minus_2 = fib_n_minus_1
+        fib_n_minus_1 = fib_current
+    RETURN fib_current
+
+# Enhanced User Interaction with Polyconditional Sequence Selection
+DEFINE FUNCTION fibonacci_interaction():
+    PRINT "Enter the number of terms for the Fibonacci sequence (non-negative integer): "
+    n = INPUT()  # Get user input
+
+    IF n IS NOT A NUMBER OR n < 0 THEN
+        PRINT "Invalid input! Please enter a non-negative integer."
+        RETURN
+
+    n = CONVERT_TO_INTEGER(n)  # Convert input to integer
+
+    # Choose Fibonacci mode
+    PRINT "Choose Fibonacci Mode: 1) Standard, 2) Modulo, 3) Truncated"
+    mode_selection = INPUT()
+    IF mode_selection == 1 THEN:
+        mode = FibonacciMode.STANDARD
+    ELSE IF mode_selection == 2 THEN:
+        PRINT "Enter Modulus Value for Modulo Fibonacci: "
+        modulus = INPUT()
+        mode = FibonacciMode.MODULO
+    ELSE IF mode_selection == 3 THEN:
+        PRINT "Enter Truncate Limit for Truncated Fibonacci: "
+        truncate_limit = INPUT()
+        mode = FibonacciMode.TRUNCATED
+    ELSE:
+        PRINT "Invalid Mode Selected."
+        RETURN
+
+    # Polyconditional Call for Fibonacci Calculation
+    IF mode == FibonacciMode.STANDARD THEN:
+        result = fibonacci_polyconditional(n, mode)
+    ELSE IF mode == FibonacciMode.MODULO THEN:
+        modulus = CONVERT_TO_INTEGER(modulus)
+        result = fibonacci_polyconditional(n, mode, modulus)
+    ELSE IF mode == FibonacciMode.TRUNCATED THEN:
+        truncate_limit = CONVERT_TO_INTEGER(truncate_limit)
+        result = fibonacci_polyconditional(n, mode, truncate_limit=truncate_limit)
+    
+    PRINT "Fibonacci Result F(", n, ") = ", result
+
+END_FUNCTION
+
+# Execution Example with Polyconditionals and Enhanced Interaction
+fibonacci_interaction()
