@@ -42,3 +42,4 @@ DEFINE FUNCTION fibonacci_example():
     PRINT "Standard Fibonacci F(", n, ") = ", fibonacci_standard(n)
     PRINT "Exponential Fibonacci F(", n, ") = ", fibonacci_exponential(n)
 END_FUNCTION
+
