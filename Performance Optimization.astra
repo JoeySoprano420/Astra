@@ -42,3 +42,17 @@ END_FUNCTION
 DEFINE FUNCTION instruction_scheduling(ir):
     # Implementation for scheduling instructions to minimize stalls
 END_FUNCTION
+
+# Profiling Tools Implementation
+
+DEFINE FUNCTION profile_function(func, *args):
+    START_TIME = CURRENT_TIMESTAMP()
+    result = CALL(func, args)
+    END_TIME = CURRENT_TIMESTAMP()
+    PRINT "Execution Time: ", (END_TIME - START_TIME) + " seconds"
+    RETURN result
+
+# Example of Profiling a Function
+DEFINE FUNCTION performance_example():
+    profile_function(math_utils_factorial, 10)  # Measure the time taken to compute factorial of 10
+END_FUNCTION
