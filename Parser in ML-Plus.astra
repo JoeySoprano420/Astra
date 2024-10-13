@@ -120,3 +120,42 @@ DEFINE FUNCTION CONVERT_TOKEN_TO_NODE(token):
     ELSE:
         RETURN CREATE_NODE(token.type, token.value)
 END_FUNCTION
+
+# Robust AstraPrime Parser: Advanced Syntax Validation and Error Recovery
+DEFINE FUNCTION parse_tokens(token_list):
+    PARSE_TREE = INIT_TREE()
+    ERROR_LIST = []
+
+    FOR EACH token IN token_list:
+        IF token IS VALID:
+            PARSE_NODE = CONVERT_TOKEN_TO_NODE(token)
+            APPEND PARSE_TREE, PARSE_NODE
+        ELSE:
+            ERROR_MESSAGE = FIX_LINE(token)
+            APPEND ERROR_LIST, ERROR_MESSAGE
+            APPEND PARSE_TREE, RECONSTRUCTED_NODE(token)
+    
+    # Post-processing for semantic analysis
+    PERFORM_SEMANTIC_ANALYSIS(PARSE_TREE, ERROR_LIST)
+    
+    RETURN (PARSE_TREE, ERROR_LIST)
+END_FUNCTION
+
+DEFINE FUNCTION CONVERT_TOKEN_TO_NODE(token):
+    # Converts tokens into syntax tree nodes with enhanced attributes
+    RETURN CREATE_NODE(token.type, token.value, CURRENT_LINE_NUMBER(), CURRENT_COLUMN_NUMBER())
+END_FUNCTION
+
+DEFINE FUNCTION FIX_LINE(token):
+    # Reconstruct and remodel code based on surrounding context with enhanced diagnostics
+    CONTEXTUAL_ANALYSIS token
+    REBUILD_TOKEN token UNTIL CORRECT
+    RETURN "Fixed error at token: " + token.value
+END_FUNCTION
+
+DEFINE FUNCTION PERFORM_SEMANTIC_ANALYSIS(parse_tree, error_list):
+    # Traverse parse tree for semantic errors
+    FOR EACH node IN parse_tree:
+        IF NOT IS_SEMANTICALLY_CORRECT(node):
+            APPEND error_list, CREATE_ERROR("Semantic error in node: " + node.value)
+END_FUNCTION
