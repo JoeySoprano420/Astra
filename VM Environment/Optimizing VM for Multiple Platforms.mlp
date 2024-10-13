@@ -1,0 +1,9 @@
+DEFINE FUNCTION optimize_for_platform(platform):
+    IF platform == "Desktop":
+        PRINT("Using Assembly for Desktop...")
+        RUN_IN_ASSEMBLY()
+    ELSE IF platform == "Embedded":
+        PRINT("Optimizing for Embedded systems...")
+        RUN_IN_MACHINE_CODE()
+    ELSE:
+        PRINT("Running default optimizations.")
