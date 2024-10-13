@@ -156,3 +156,27 @@ DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
         APPEND suggestions, "Check for null references or illegal operations."
     RETURN suggestions
 END_FUNCTION
+
+# Enhanced Error Classification and Logging
+DEFINE FUNCTION LOG_ERRORS(error_list):
+    FOR error IN error_list:
+        LOG_ERROR(error)
+    
+DEFINE FUNCTION LOG_ERROR(error):
+    WRITE_TO_FILE "error_log.txt", 
+        "Timestamp: " + CURRENT_TIMESTAMP() + 
+        ", Severity: " + error.SEVERITY + 
+        ", Message: " + error.ERROR_MESSAGE + 
+        ", Details: " + error.ERROR_DETAILS + 
+        ", Suggestions: " + error.SUGGESTIONS
+END_FUNCTION
+
+DEFINE FUNCTION CREATE_ERROR(message, details = [], severity = "ERROR"):
+    RETURN {
+        ERROR_MESSAGE = message,
+        TIMESTAMP = CURRENT_TIMESTAMP(),
+        ERROR_DETAILS = details,
+        SUGGESTIONS = GENERATE_SUGGESTIONS(message),
+        STACK_TRACE = GET_STACK_TRACE(),
+        SEVERITY = severity
+    }
