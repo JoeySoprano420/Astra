@@ -275,3 +275,59 @@ DEFINE FUNCTION GENERATE_SUGGESTIONS(message):
         APPEND suggestions, "Refer to documentation for further assistance."
     RETURN suggestions
 END_FUNCTION
+
+# Custom Error Types
+DEFINE CLASS CustomError:
+    ATTRIBUTES:
+        error_code
+        error_message
+
+    DEFINE CONSTRUCTOR(code, message):
+        self.error_code = code
+        self.error_message = message
+
+    DEFINE FUNCTION display_error():
+        PRINT "Error Code: ", self.error_code, " Message: ", self.error_message
+END_CLASS
+
+# Example Error Handling
+DEFINE FUNCTION error_handling_example():
+    TRY:
+        # Simulate an error
+        IF TRUE:
+            THROW CustomError(404, "Resource Not Found")
+    CATCH (e AS CustomError):
+        e.display_error()
+END_FUNCTION
+
+# Advanced Try-Catch-Finally Example
+DEFINE FUNCTION try_catch_finally_example():
+    TRY:
+        PRINT "Trying to execute code."
+        # Simulate an error
+        THROW "Simulated error"
+    CATCH (error):
+        PRINT "Caught an error: ", error
+    FINALLY:
+        PRINT "This will always execute, regardless of errors."
+END_FUNCTION
+
+# Advanced Collection Iteration
+DEFINE FUNCTION iterate_collection(collection):
+    FOR item IN collection:
+        PRINT "Item: ", item
+END_FUNCTION
+
+DEFINE FUNCTION filter_collection(collection, predicate):
+    result = []
+    FOR item IN collection:
+        IF predicate(item):
+            APPEND result, item
+    RETURN result
+END_FUNCTION
+
+# Array Comprehension Example
+DEFINE FUNCTION array_comprehension_example(values):
+    new_array = [value * 2 FOR value IN values IF value > 0]
+    RETURN new_array
+END_FUNCTION
