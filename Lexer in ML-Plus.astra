@@ -1,4 +1,4 @@
-# Upgraded AstraPrime Lexer: Advanced Tokenization and Error Handling
+# Advanced AstraPrime Lexer: Comprehensive Tokenization with Error Reporting
 DEFINE FUNCTION lex_source_code(source_code):
     TOKEN_LIST = []
     ERROR_LIST = []
@@ -6,6 +6,7 @@ DEFINE FUNCTION lex_source_code(source_code):
     # Initialize state variables for string and comment handling
     is_string = FALSE
     is_comment = FALSE
+    escape_sequence = FALSE
     
     # Tokenize using advanced pinpoint scans
     FOR i FROM 0 TO LENGTH(source_code) - 1:
@@ -17,6 +18,9 @@ DEFINE FUNCTION lex_source_code(source_code):
             CONTINUE
         
         IF is_string:
+            IF char MATCH "\\":
+                escape_sequence = TRUE
+                CONTINUE
             IF char MATCH "\"":
                 is_string = FALSE
             ELSE:
@@ -31,12 +35,16 @@ DEFINE FUNCTION lex_source_code(source_code):
             is_comment = TRUE
             CONTINUE
         
+        IF char MATCH "/*":
+            is_comment = TRUE
+            CONTINUE
+        
         IF char IS WHITESPACE:
             CONTINUE
         ELSE:
             token = DETERMINE_TOKEN_TYPE(char)
             IF token IS UNKNOWN:
-                APPEND ERROR_LIST, CREATE_ERROR("Unexpected character: " + char)
+                APPEND ERROR_LIST, CREATE_ERROR("Unexpected character: " + char + " at position: " + i)
             ELSE:
                 APPEND TOKEN_LIST, token
 
@@ -54,7 +62,7 @@ DEFINE FUNCTION DETERMINE_TOKEN_TYPE(char):
         RETURN CREATE_TOKEN("NUMBER", char)
     ELSE IF char MATCH "[+-/*=<>!&|]":
         RETURN CREATE_TOKEN("OPERATOR", char)
-    ELSE IF char MATCH "[(){};]":
+    ELSE IF char MATCH "[(){};,:]":
         RETURN CREATE_TOKEN("SYMBOL", char)
     ELSE:
         RETURN CREATE_TOKEN("UNKNOWN", char)
