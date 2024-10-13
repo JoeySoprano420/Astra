@@ -3,8 +3,34 @@ DEFINE FUNCTION lex_source_code(source_code):
     TOKEN_LIST = []
     ERROR_LIST = []
     
+    # Initialize state variables for string and comment handling
+    is_string = FALSE
+    is_comment = FALSE
+    
     # Tokenize using advanced pinpoint scans
-    FOR EACH char IN source_code:
+    FOR i FROM 0 TO LENGTH(source_code) - 1:
+        char = source_code[i]
+        
+        IF is_comment:
+            IF char MATCH "\n":
+                is_comment = FALSE
+            CONTINUE
+        
+        IF is_string:
+            IF char MATCH "\"":
+                is_string = FALSE
+            ELSE:
+                APPEND TOKEN_LIST, CREATE_TOKEN("STRING", char)
+            CONTINUE
+            
+        IF char MATCH "\"":
+            is_string = TRUE
+            CONTINUE
+            
+        IF char MATCH "//":
+            is_comment = TRUE
+            CONTINUE
+        
         IF char IS WHITESPACE:
             CONTINUE
         ELSE:
