@@ -258,3 +258,12 @@ The memoization technique continues to be applied in the standard Fibonacci func
 Output Formatting:
 
 The interaction function prints out the result based on the user-selected Fibonacci mode, providing clear feedback on the sequence.
+
+Super Advanced Multithreading for Fibonacci Computation
+Multithreading allows multiple parts of the Fibonacci calculation to be performed in parallel, which significantly speeds up the process for higher values of n.
+
+Step-by-Step Guide:
+Step 1: Implement a thread manager to handle parallel execution.
+Step 2: Divide the Fibonacci computation into smaller tasks, and assign each task to a thread.
+Step 3: Synchronize the threads and combine the results.
+
