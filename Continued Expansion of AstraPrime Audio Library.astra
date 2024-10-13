@@ -1,0 +1,92 @@
+# Continued Expansion of AstraPrime Audio Library
+
+    DEFINE FUNCTION ADD_EVENT_LISTENER(event_name, callback_function):
+        # Add a custom event listener for specific audio events
+        IF NOT EXISTS event_listeners[event_name]:
+            event_listeners[event_name] = []
+        APPEND callback_function TO event_listeners[event_name]
+        PRINT "Event listener added for event: " + event_name
+    END_FUNCTION
+
+    DEFINE FUNCTION TRIGGER_EVENT(event_name, sound):
+        # Trigger all audio events related to a specific event name
+        IF EXISTS event_listeners[event_name]:
+            FOR EACH listener IN event_listeners[event_name]:
+                CALL listener(sound)
+            PRINT "Triggered event listeners for event: " + event_name
+        ELSE:
+            PRINT "No listeners found for event: " + event_name
+    END_FUNCTION
+
+    DEFINE FUNCTION SET_3D_AUDIO_POSITION(sound, position):
+        # Set the 3D position of an audio source
+        sound.POSITION = position
+        PRINT "3D audio position set to: " + position
+    END_FUNCTION
+
+    DEFINE FUNCTION ADJUST_AUDIO_ENVIRONMENT(environment_type):
+        # Adjust environmental effects for audio (reverb, echo, etc.)
+        IF environment_type == "CAVE":
+            SET_REVERB(0.5)
+            PRINT "Cave environment audio effects applied."
+        ELSE IF environment_type == "FOREST":
+            SET_REVERB(0.2)
+            PRINT "Forest environment audio effects applied."
+        ELSE IF environment_type == "CITY":
+            SET_REVERB(0.1)
+            PRINT "City environment audio effects applied."
+        ELSE:
+            PRINT "Unknown environment type. No adjustments made."
+    END_FUNCTION
+
+    DEFINE FUNCTION DYNAMIC_AUDIO_ADJUSTMENT(condition):
+        # Adjust audio based on game conditions (e.g., player health)
+        IF condition == "LOW_HEALTH":
+            SET_VOLUME(current_background_music, 0.5)
+            PRINT "Background music volume reduced due to low health."
+        ELSE IF condition == "HIGH_STRESS":
+            SET_VOLUME(current_background_music, 1.0)
+            PRINT "Background music volume increased due to high stress."
+        ELSE:
+            PRINT "No adjustments made for the condition: " + condition
+    END_FUNCTION
+
+    DEFINE FUNCTION REMOVE_EVENT_LISTENER(event_name, callback_function):
+        # Remove a specific event listener for a given event
+        IF EXISTS event_listeners[event_name]:
+            REMOVE callback_function FROM event_listeners[event_name]
+            PRINT "Removed event listener for event: " + event_name
+        ELSE:
+            PRINT "No listeners found for event: " + event_name
+    END_FUNCTION
+
+    # Example of using the audio functions in a game scenario
+    FUNCTION GAME_AUDIO_SCENARIO():
+        INIT_AUDIO()
+        background_music = LOAD_SOUND("background.mp3")
+        COLLISION_SOUND = LOAD_SOUND("collision.wav")
+        PICKUP_SOUND = LOAD_SOUND("pickup.ogg")
+        
+        SET_BACKGROUND_MUSIC("background.mp3")
+        
+        # Set event listeners for sound triggers
+        ADD_EVENT_LISTENER("COLLISION", lambda sound: PLAY(sound))
+        ADD_EVENT_LISTENER("PICKUP", lambda sound: PLAY(sound))
+
+        # Game loop
+        WHILE game_is_running:
+            IF player_collided:
+                TRIGGER_EVENT("COLLISION", COLLISION_SOUND)
+            IF player_picked_up_item:
+                TRIGGER_EVENT("PICKUP", PICKUP_SOUND)
+            
+            # Adjust audio based on conditions
+            DYNAMIC_AUDIO_ADJUSTMENT(player_condition)
+
+            # Simulate 3D audio position update
+            SET_3D_AUDIO_POSITION(COLLISION_SOUND, player_position)
+            WAIT(0.1)  # Delay to simulate frame timing
+
+    END_FUNCTION
+
+END_LIBRARY
