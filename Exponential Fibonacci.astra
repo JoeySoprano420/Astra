@@ -337,3 +337,50 @@ DEFINE FUNCTION visualize_fibonacci():
     n = 15  # Set the value of n
     plot_fibonacci_sequence(n)
 END_FUNCTION
+
+# Prime number checker
+DEFINE FUNCTION is_prime(num):
+    IF num < 2 THEN RETURN FALSE
+    FOR i FROM 2 TO SQRT(num):
+        IF num % i == 0 THEN RETURN FALSE
+    RETURN TRUE
+
+# Generate Fibonacci sequence with prime numbers only
+DEFINE FUNCTION prime_fibonacci_sequence(n):
+    sequence = []
+    i = 0
+    WHILE LENGTH(sequence) < n:
+        fib_num = fibonacci_standard(i)
+        IF is_prime(fib_num):
+            APPEND sequence, fib_num
+        i += 1
+    RETURN sequence
+
+# Generate Fibonacci sequence with odd numbers only
+DEFINE FUNCTION odd_fibonacci_sequence(n):
+    sequence = []
+    i = 0
+    WHILE LENGTH(sequence) < n:
+        fib_num = fibonacci_standard(i)
+        IF fib_num % 2 != 0:
+            APPEND sequence, fib_num
+        i += 1
+    RETURN sequence
+
+# Generate Fibonacci sequence with even numbers only
+DEFINE FUNCTION even_fibonacci_sequence(n):
+    sequence = []
+    i = 0
+    WHILE LENGTH(sequence) < n:
+        fib_num = fibonacci_standard(i)
+        IF fib_num % 2 == 0:
+            APPEND sequence, fib_num
+        i += 1
+    RETURN sequence
+
+# Example of generating custom Fibonacci sequences
+DEFINE FUNCTION custom_fibonacci_example():
+    PRINT "Prime Fibonacci Sequence (first 5): ", prime_fibonacci_sequence(5)
+    PRINT "Odd Fibonacci Sequence (first 5): ", odd_fibonacci_sequence(5)
+    PRINT "Even Fibonacci Sequence (first 5): ", even_fibonacci_sequence(5)
+END_FUNCTION
