@@ -267,3 +267,9 @@ Step 1: Implement a thread manager to handle parallel execution.
 Step 2: Divide the Fibonacci computation into smaller tasks, and assign each task to a thread.
 Step 3: Synchronize the threads and combine the results.
 
+Visualization: Plotting Fibonacci Sequence
+For visualization, we can integrate a simple plotting library to visualize the Fibonacci sequence. We will use a hypothetical built-in plotting function for AstraPrime.
+
+Step-by-Step Guide:
+Step 1: Generate the Fibonacci sequence up to n using the desired method (standard, modulo, etc.).
+Step 2: Use a plotting function to visualize the sequence as a graph.
