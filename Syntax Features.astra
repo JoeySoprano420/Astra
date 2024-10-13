@@ -1,0 +1,15 @@
+# Improved Syntax Features
+
+# Enhanced Control Structures with Enhanced Readability
+DEFINE FUNCTION sum_numbers(a, b):
+    RETURN a + b
+
+DEFINE FUNCTION enhanced_syntax_example():
+    sum_result = sum_numbers(5, 10)
+    PRINT "Sum Result: ", sum_result
+
+# Enhanced List Comprehension Syntax
+DEFINE FUNCTION list_comprehension_example():
+    squares = [x * x FOR x IN [1, 2, 3, 4, 5]]
+    PRINT "Squares: ", squares
+END_FUNCTION
